@@ -1,0 +1,1 @@
+pyinstaller -F --hidden-import PyQt5.sip --noconsole pnpOutline.py

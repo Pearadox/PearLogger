@@ -1,0 +1,1 @@
+pyuic5.exe -x PearLog.ui -o temp.py

@@ -1,0 +1,2 @@
+After editing PearLog.ui, run ui2py.bat. If PearLog.ui is renamed, make sure to edit ui2py.bat to go with the changes.
+Copy the contents of setupUi and retranslateUI into the main code, making sure not to erase the custom changes.
