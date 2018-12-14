@@ -1,15 +1,20 @@
+# -*- coding: utf-8 -*-
+
+# Form implementation generated from reading ui file 'PearLog.ui'
+#
+# Created by: PyQt5 UI code generator 5.11.3
+#
+# WARNING! All changes made in this file will be lost!
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 class Ui_MainWindow(object):
-
-    def start(self):
-        #initialize crap
-
-
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(1416, 800)
+        MainWindow.resize(1420, 800)
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap("G:/Private/Pictures/Pearadox Logo.PNG"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        MainWindow.setWindowIcon(icon)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.tableWidget = QtWidgets.QTableWidget(self.centralwidget)
@@ -18,15 +23,18 @@ class Ui_MainWindow(object):
         self.tableWidget.setColumnCount(5)
         self.tableWidget.setObjectName("tableWidget")
         self.tableWidget.horizontalHeader().setVisible(False)
-        self.tableWidget.horizontalHeader().setDefaultSectionSize(160)
+        self.tableWidget.horizontalHeader().setDefaultSectionSize(161)
         self.tableWidget.horizontalHeader().setHighlightSections(False)
         self.tableWidget.horizontalHeader().setMinimumSectionSize(39)
         self.tableWidget.verticalHeader().setVisible(False)
-        self.tableWidget.verticalHeader().setDefaultSectionSize(185)
+        self.tableWidget.verticalHeader().setDefaultSectionSize(187)
         self.tableWidget.verticalHeader().setHighlightSections(False)
         self.listWidget = QtWidgets.QListWidget(self.centralwidget)
         self.listWidget.setGeometry(QtCore.QRect(830, 90, 241, 671))
+        self.listWidget.setAutoFillBackground(False)
+        self.listWidget.setProperty("isWrapping", True)
         self.listWidget.setGridSize(QtCore.QSize(0, 0))
+        self.listWidget.setWordWrap(True)
         self.listWidget.setObjectName("listWidget")
         self.lineEdit = QtWidgets.QLineEdit(self.centralwidget)
         self.lineEdit.setGeometry(QtCore.QRect(830, 10, 241, 41))
@@ -37,14 +45,14 @@ class Ui_MainWindow(object):
         self.tableWidget_2.setColumnCount(2)
         self.tableWidget_2.setObjectName("tableWidget_2")
         self.tableWidget_2.horizontalHeader().setVisible(False)
-        self.tableWidget_2.horizontalHeader().setDefaultSectionSize(160)
+        self.tableWidget_2.horizontalHeader().setDefaultSectionSize(164)
         self.tableWidget_2.horizontalHeader().setHighlightSections(False)
         self.tableWidget_2.verticalHeader().setVisible(False)
-        self.tableWidget_2.verticalHeader().setDefaultSectionSize(185)
+        self.tableWidget_2.verticalHeader().setDefaultSectionSize(187)
         self.tableWidget_2.verticalHeader().setHighlightSections(False)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 1416, 21))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 1420, 21))
         self.menubar.setObjectName("menubar")
         self.menuFile = QtWidgets.QMenu(self.menubar)
         self.menuFile.setObjectName("menuFile")
@@ -66,8 +74,6 @@ class Ui_MainWindow(object):
         self.retranslateUi(MainWindow)
         self.listWidget.setCurrentRow(-1)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
-
-        start
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
