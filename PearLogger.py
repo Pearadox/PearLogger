@@ -12,6 +12,7 @@ import re
 
 
 peopleDict = dict()
+signedIn = list()
 
 
 def setup():
@@ -27,56 +28,74 @@ def setup():
 
     #  loop through file and process people
     with open("data/people.pear") as inf:
+        lineCount = 0
         for line in inf:
-            raw = str.strip(line)
-            delimited = re.split(';', raw)
-            print(delimited)
-            
+            lineCount += 1
 
+            #  parse through data in each line
+            try:
+                raw = str.strip(line)
+                delimited = re.split(';', raw)
+                number = str.strip(delimited[0])
+                name = str.strip(delimited[1])
+                picture_path = "data/profilepics/"+str.strip(delimited[2])
+                # print(number+"|"+name+"|"+picture_path)
+            except:
+                print("ERROR: Parsing error in people file (data/people.pear, line " + str(lineCount) + ")")
+
+            #  check if number already exists in dictionary
+            if (number in peopleDict.keys()):
+                print("ERROR: Duplicate numbers in people file (#" + number + ") (data/people.pear, line " + str(
+                    lineCount) + ")")
+                continue
+
+            #  record the data in a dictionary
+            peopleDict[number] = (name, picture_path)
 
 
 class Ui_MainWindow(object):
+
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(1420, 800)
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("res/Pearadox Logo.PNG"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap("G:/Private/Pictures/Pearadox Logo.PNG"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         MainWindow.setWindowIcon(icon)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
-        self.tableWidget = QtWidgets.QTableWidget(self.centralwidget)
-        self.tableWidget.setGeometry(QtCore.QRect(10, 10, 811, 751))
-        self.tableWidget.setRowCount(4)
-        self.tableWidget.setColumnCount(5)
-        self.tableWidget.setObjectName("tableWidget")
-        self.tableWidget.horizontalHeader().setVisible(False)
-        self.tableWidget.horizontalHeader().setDefaultSectionSize(161)
-        self.tableWidget.horizontalHeader().setHighlightSections(False)
-        self.tableWidget.horizontalHeader().setMinimumSectionSize(39)
-        self.tableWidget.verticalHeader().setVisible(False)
-        self.tableWidget.verticalHeader().setDefaultSectionSize(187)
-        self.tableWidget.verticalHeader().setHighlightSections(False)
-        self.listWidget = QtWidgets.QListWidget(self.centralwidget)
-        self.listWidget.setGeometry(QtCore.QRect(830, 90, 241, 671))
-        self.listWidget.setAutoFillBackground(False)
-        self.listWidget.setProperty("isWrapping", True)
-        self.listWidget.setGridSize(QtCore.QSize(0, 0))
-        self.listWidget.setWordWrap(True)
-        self.listWidget.setObjectName("listWidget")
-        self.lineEdit = QtWidgets.QLineEdit(self.centralwidget)
-        self.lineEdit.setGeometry(QtCore.QRect(830, 10, 241, 41))
-        self.lineEdit.setObjectName("lineEdit")
-        self.tableWidget_2 = QtWidgets.QTableWidget(self.centralwidget)
-        self.tableWidget_2.setGeometry(QtCore.QRect(1080, 10, 331, 751))
-        self.tableWidget_2.setRowCount(4)
-        self.tableWidget_2.setColumnCount(2)
-        self.tableWidget_2.setObjectName("tableWidget_2")
-        self.tableWidget_2.horizontalHeader().setVisible(False)
-        self.tableWidget_2.horizontalHeader().setDefaultSectionSize(164)
-        self.tableWidget_2.horizontalHeader().setHighlightSections(False)
-        self.tableWidget_2.verticalHeader().setVisible(False)
-        self.tableWidget_2.verticalHeader().setDefaultSectionSize(187)
-        self.tableWidget_2.verticalHeader().setHighlightSections(False)
+        self.studentTable = QtWidgets.QTableWidget(self.centralwidget)
+        self.studentTable.setGeometry(QtCore.QRect(10, 10, 811, 751))
+        self.studentTable.setRowCount(4)
+        self.studentTable.setColumnCount(5)
+        self.studentTable.setObjectName("studentTable")
+        self.studentTable.horizontalHeader().setVisible(False)
+        self.studentTable.horizontalHeader().setDefaultSectionSize(161)
+        self.studentTable.horizontalHeader().setHighlightSections(False)
+        self.studentTable.horizontalHeader().setMinimumSectionSize(39)
+        self.studentTable.verticalHeader().setVisible(False)
+        self.studentTable.verticalHeader().setDefaultSectionSize(187)
+        self.studentTable.verticalHeader().setHighlightSections(False)
+        self.extraList = QtWidgets.QListWidget(self.centralwidget)
+        self.extraList.setGeometry(QtCore.QRect(830, 90, 241, 671))
+        self.extraList.setAutoFillBackground(False)
+        self.extraList.setProperty("isWrapping", True)
+        self.extraList.setGridSize(QtCore.QSize(0, 0))
+        self.extraList.setWordWrap(True)
+        self.extraList.setObjectName("extraList")
+        self.numberEntry = QtWidgets.QLineEdit(self.centralwidget)
+        self.numberEntry.setGeometry(QtCore.QRect(830, 10, 241, 41))
+        self.numberEntry.setObjectName("numberEntry")
+        self.mentorTable = QtWidgets.QTableWidget(self.centralwidget)
+        self.mentorTable.setGeometry(QtCore.QRect(1080, 10, 331, 751))
+        self.mentorTable.setRowCount(4)
+        self.mentorTable.setColumnCount(2)
+        self.mentorTable.setObjectName("mentorTable")
+        self.mentorTable.horizontalHeader().setVisible(False)
+        self.mentorTable.horizontalHeader().setDefaultSectionSize(164)
+        self.mentorTable.horizontalHeader().setHighlightSections(False)
+        self.mentorTable.verticalHeader().setVisible(False)
+        self.mentorTable.verticalHeader().setDefaultSectionSize(187)
+        self.mentorTable.verticalHeader().setHighlightSections(False)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 1420, 21))
@@ -99,7 +118,7 @@ class Ui_MainWindow(object):
         self.menubar.addAction(self.menuActions.menuAction())
 
         self.retranslateUi(MainWindow)
-        self.listWidget.setCurrentRow(-1)
+        self.extraList.setCurrentRow(-1)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
@@ -109,6 +128,32 @@ class Ui_MainWindow(object):
         self.menuActions.setTitle(_translate("MainWindow", "Actions"))
         self.actionClear_All.setText(_translate("MainWindow", "Clear All"))
         self.actionSign_Out_All.setText(_translate("MainWindow", "Sign Out All"))
+
+    #  configures tables and widgets and stuff
+    def configureStuff(self):
+        #  enter key will call logEntry method
+        self.numberEntry.returnPressed.connect(self.logEntry)
+
+    #  signs in the number inside the line edit
+    def logEntry(self):
+        try:
+            #  get the number, clear the line
+            number = int(self.numberEntry.text())
+            self.numberEntry.setText('')
+        except:
+            return
+        #  decide whether to sign the number in/out
+        if(number in signedIn):
+            logOut(number)
+        else:
+            logIn(number)
+
+def logIn(self, number):
+    signedIn.append(number)
+
+def logOut(self, number):
+    signedIn.remove(number)
+
 
 
 if __name__ == "__main__":
@@ -120,5 +165,6 @@ if __name__ == "__main__":
     MainWindow.show()
 
     setup();
+    Ui_MainWindow.configureStuff(ui)
 
     sys.exit(app.exec_())

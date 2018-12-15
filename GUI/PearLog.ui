@@ -18,7 +18,7 @@
     <normaloff>G:/Private/Pictures/Pearadox Logo.PNG</normaloff>G:/Private/Pictures/Pearadox Logo.PNG</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QTableWidget" name="tableWidget">
+   <widget class="QTableWidget" name="studentTable">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -64,7 +64,7 @@
     <column/>
     <column/>
    </widget>
-   <widget class="QListWidget" name="listWidget">
+   <widget class="QListWidget" name="extraList">
     <property name="geometry">
      <rect>
       <x>830</x>
@@ -92,7 +92,7 @@
      <number>-1</number>
     </property>
    </widget>
-   <widget class="QLineEdit" name="lineEdit">
+   <widget class="QLineEdit" name="numberEntry">
     <property name="geometry">
      <rect>
       <x>830</x>
@@ -102,7 +102,7 @@
      </rect>
     </property>
    </widget>
-   <widget class="QTableWidget" name="tableWidget_2">
+   <widget class="QTableWidget" name="mentorTable">
     <property name="geometry">
      <rect>
       <x>1080</x>
