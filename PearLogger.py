@@ -8,6 +8,7 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from pathlib import Path
+import re
 
 
 peopleDict = dict()
@@ -28,6 +29,8 @@ def setup():
     with open("data/people.pear") as inf:
         for line in inf:
             raw = str.strip(line)
+            delimited = re.split(';', raw)
+            print(delimited)
             
 
 
