@@ -2,13 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="541fd2a1-b9e7-437e-bf0a-b35feedbe6d4" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/PearadoxSignInApp.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/PearadoxSignInApp.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/README.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/profilepics/default.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/profilepics/example_picture.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/record.pear" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/GUI/PearLog.ui" beforeDir="false" afterPath="$PROJECT_DIR$/GUI/PearLog.ui" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/GUI/temp.py" beforeDir="false" afterPath="$PROJECT_DIR$/GUI/temp.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/PearLogger.py" beforeDir="false" afterPath="$PROJECT_DIR$/PearLogger.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/people.pear" beforeDir="false" afterPath="$PROJECT_DIR$/data/people.pear" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/profilepics/example_picture.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/profilepics/example_picture.png" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -22,8 +25,17 @@
       <file leaf-file-name="temp.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/GUI/temp.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="240">
-              <caret line="12" column="8" selection-start-line="12" selection-start-column="8" selection-end-line="75" selection-end-column="57" />
+            <state relative-caret-position="80">
+              <caret line="4" column="16" selection-start-line="4" selection-start-column="16" selection-end-line="4" selection-end-column="16" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="README.txt" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/README.txt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="120">
+              <caret line="6" column="71" selection-start-line="6" selection-start-column="71" selection-end-line="6" selection-end-column="71" />
             </state>
           </provider>
         </entry>
@@ -31,17 +43,34 @@
       <file leaf-file-name="PearLogger.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/PearLogger.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="411">
-              <caret line="146" column="26" lean-forward="true" selection-start-line="146" selection-start-column="26" selection-end-line="146" selection-end-column="26" />
+            <state relative-caret-position="491">
+              <caret line="346" column="25" lean-forward="true" selection-start-line="346" selection-start-column="25" selection-end-line="346" selection-end-column="25" />
+              <folding>
+                <element signature="e#196#238#0" expanded="true" />
+                <element signature="e#1089#2270#0" />
+                <element signature="e#1878#7036#0" />
+                <element signature="e#1917#5701#0" />
+                <element signature="e#5752#6166#0" />
+                <element signature="e#6254#6518#0" />
+                <element signature="e#6600#7036#0" />
+                <element signature="e#7260#8153#0" />
+                <element signature="e#8902#10966#0" />
+                <element signature="e#8974#10218#0" />
+              </folding>
             </state>
           </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="record.pear" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/data/record.pear">
+          <provider selected="true" editor-type-id="text-editor" />
         </entry>
       </file>
       <file leaf-file-name="people.pear" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/data/people.pear">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="40">
-              <caret line="2" column="34" lean-forward="true" selection-start-line="2" selection-start-column="34" selection-end-line="2" selection-end-column="34" />
+            <state relative-caret-position="80">
+              <caret line="4" column="38" selection-end-line="4" selection-end-column="38" />
             </state>
           </provider>
         </entry>
@@ -55,6 +84,12 @@
       </list>
     </option>
   </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>print</find>
+      <find>keys</find>
+    </findStrings>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
@@ -66,16 +101,18 @@
         <option value="$PROJECT_DIR$/GUI/ui2py.bat" />
         <option value="$PROJECT_DIR$/PearLog.py" />
         <option value="$PROJECT_DIR$/GUI/temp.py" />
+        <option value="$PROJECT_DIR$/README.txt" />
         <option value="$PROJECT_DIR$/data/people.pear" />
+        <option value="$PROJECT_DIR$/data/record.pear" />
         <option value="$PROJECT_DIR$/PearLogger.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="251" />
-    <option name="y" value="36" />
+    <option name="x" value="185" />
+    <option name="y" value="-12" />
     <option name="width" value="1400" />
-    <option name="height" value="1000" />
+    <option name="height" value="985" />
   </component>
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="2" id="Add" />
@@ -104,11 +141,6 @@
               <item name="data" type="462c0819:PsiDirectoryNode" />
               <item name="profilepics" type="462c0819:PsiDirectoryNode" />
             </path>
-            <path>
-              <item name="PearLogger" type="b2602c69:ProjectViewProjectNode" />
-              <item name="PearLogger" type="462c0819:PsiDirectoryNode" />
-              <item name="GUI" type="462c0819:PsiDirectoryNode" />
-            </path>
           </expand>
           <select />
         </subPane>
@@ -120,6 +152,9 @@
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Allen\Documents\GitHub\PearLogger\data\profilepics" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\Allen\Documents\GitHub\PearLogger\data\profilepics" />
       <recent name="C:\Users\Allen\Documents\GitHub\PearLogger\res" />
@@ -138,7 +173,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Python.PearLogger">
     <configuration name="PearLogger" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="PearadoxSignInApp" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -157,9 +192,32 @@
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
     </configuration>
+    <configuration name="temp" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="PearadoxSignInApp" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/GUI" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/GUI/temp.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+    </configuration>
+    <list>
+      <item itemvalue="Python.PearLogger" />
+      <item itemvalue="Python.temp" />
+    </list>
     <recent_temporary>
       <list>
         <item itemvalue="Python.PearLogger" />
+        <item itemvalue="Python.temp" />
       </list>
     </recent_temporary>
   </component>
@@ -178,13 +236,15 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1096" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.25" />
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
+      <window_info active="true" anchor="bottom" id="Event Log" order="7" sideWeight="0.5005208" side_tool="true" visible="true" weight="0.32928064" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32928064" />
       <window_info anchor="bottom" id="Version Control" order="7" />
       <window_info anchor="bottom" id="Python Console" order="7" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.32928064" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49947917" visible="true" weight="0.32928064" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Terminal" order="7" weight="0.32928064" />
       <window_info id="Favorites" order="2" side_tool="true" />
@@ -203,10 +263,14 @@
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.32928064" />
       <window_info anchor="bottom" id="Terminal" order="7" weight="0.32928064" />
       <window_info id="Favorites" order="2" side_tool="true" />
     </layout>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <option name="time" value="1" />
+    </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/GUI/temp.py">
@@ -227,6 +291,18 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="580">
           <caret line="30" lean-forward="true" selection-start-line="30" selection-end-line="30" />
+          <folding>
+            <element signature="e#196#238#0" expanded="true" />
+            <element signature="e#1089#2270#0" />
+            <element signature="e#1878#7036#0" />
+            <element signature="e#1917#5701#0" />
+            <element signature="e#5752#6166#0" />
+            <element signature="e#6254#6518#0" />
+            <element signature="e#6600#7036#0" />
+            <element signature="e#7260#8153#0" />
+            <element signature="e#8902#10966#0" />
+            <element signature="e#8974#10218#0" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -271,7 +347,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/data/profilepics/example_picture.png">
+    <entry file="file://$PROJECT_DIR$/data/profilepics/example_picture.jpg">
       <provider selected="true" editor-type-id="images" />
     </entry>
     <entry file="file://$PROJECT_DIR$/GUI/temp.py">
@@ -292,17 +368,22 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="343">
           <caret line="30" selection-start-line="30" selection-end-line="30" />
+          <folding>
+            <element signature="e#196#238#0" expanded="true" />
+            <element signature="e#1089#2270#0" />
+            <element signature="e#1878#7036#0" />
+            <element signature="e#1917#5701#0" />
+            <element signature="e#5752#6166#0" />
+            <element signature="e#6254#6518#0" />
+            <element signature="e#6600#7036#0" />
+            <element signature="e#7260#8153#0" />
+            <element signature="e#8902#10966#0" />
+            <element signature="e#8974#10218#0" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/GUI/pnp.ui" />
-    <entry file="file://$PROJECT_DIR$/GUI/Instructions.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="20">
-          <caret line="1" column="40" lean-forward="true" selection-start-line="1" selection-start-column="40" selection-end-line="1" selection-end-column="40" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/py2exe.bat">
       <provider selected="true" editor-type-id="text-editor">
         <state>
@@ -313,9 +394,6 @@
     <entry file="file://$PROJECT_DIR$/PearLog.py" />
     <entry file="file://$USER_HOME$/AppData/Local/Temp/Rar$DIa18144.49324/pnpOutline.py" />
     <entry file="file://$USER_HOME$/AppData/Local/Temp/Rar$DIa52552.47348/pnpOutline.py" />
-    <entry file="file://$PROJECT_DIR$/data/profilepics/example_picture.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/GUI/ui2py.bat">
       <provider selected="true" editor-type-id="text-editor">
         <state>
@@ -323,24 +401,70 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/data/profilepics/example_picture.jpg">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/GUI/Instructions.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="20">
+          <caret line="1" column="65" lean-forward="true" selection-start-line="1" selection-start-column="65" selection-end-line="1" selection-end-column="65" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python35/Lib/re.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="211">
+          <caret line="202" selection-start-line="202" selection-end-line="202" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/GUI/temp.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="12" column="8" selection-start-line="12" selection-start-column="8" selection-end-line="75" selection-end-column="57" />
+        <state relative-caret-position="80">
+          <caret line="4" column="16" selection-start-line="4" selection-start-column="16" selection-end-line="4" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="6" column="71" selection-start-line="6" selection-start-column="71" selection-end-line="6" selection-end-column="71" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python35/Lib/base64.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="203">
+          <caret line="89" selection-start-line="89" selection-end-line="89" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/data/people.pear">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="40">
-          <caret line="2" column="34" lean-forward="true" selection-start-line="2" selection-start-column="34" selection-end-line="2" selection-end-column="34" />
+        <state relative-caret-position="80">
+          <caret line="4" column="38" selection-end-line="4" selection-end-column="38" />
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/data/record.pear">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
     <entry file="file://$PROJECT_DIR$/PearLogger.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="411">
-          <caret line="146" column="26" lean-forward="true" selection-start-line="146" selection-start-column="26" selection-end-line="146" selection-end-column="26" />
+        <state relative-caret-position="491">
+          <caret line="346" column="25" lean-forward="true" selection-start-line="346" selection-start-column="25" selection-end-line="346" selection-end-column="25" />
+          <folding>
+            <element signature="e#196#238#0" expanded="true" />
+            <element signature="e#1089#2270#0" />
+            <element signature="e#1878#7036#0" />
+            <element signature="e#1917#5701#0" />
+            <element signature="e#5752#6166#0" />
+            <element signature="e#6254#6518#0" />
+            <element signature="e#6600#7036#0" />
+            <element signature="e#7260#8153#0" />
+            <element signature="e#8902#10966#0" />
+            <element signature="e#8974#10218#0" />
+          </folding>
         </state>
       </provider>
     </entry>
