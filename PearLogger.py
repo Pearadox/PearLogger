@@ -8,8 +8,7 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from pathlib import Path
-import re, time, base64
-
+import re, time
 
 peopleDict = dict()  # k: ID number  v: tuple (name, picture_path, type (s=student/m=mentor)
 signedIn = list()  # numbers representing profile ID numbers
@@ -68,92 +67,106 @@ def setup():
     #  process hours into dictionary
     with open("data/record.pear") as inf:
         for line in inf:
-            decoded_base64 = base64.b64decode(line)  # decode base64
-            raw = str.strip(decoded_base64)
-            delimited = re.split('\|', raw)
+            delimited = re.split('\|', line)
             name = str.strip(delimited[0])
             time_raw = str.strip(delimited[1])
             time_delimited = re.split(':', time_raw)
             total_seconds = int(time_delimited[0]) * 3600 + int(time_delimited[1]) * 60 + int(time_delimited[2])
             record[name] = total_seconds
 
-class Ui_MainWindow(object):
+
+class Ui_mainWindow(object):
 
     def setupUi(self, MainWindow):
-        MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(1420, 800)
+        mainWindow.setObjectName("mainWindow")
+        mainWindow.resize(1420, 800)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap("G:/Private/Pictures/Pearadox Logo.PNG"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        MainWindow.setWindowIcon(icon)
-        self.centralwidget = QtWidgets.QWidget(MainWindow)
+        mainWindow.setWindowIcon(icon)
+        self.centralwidget = QtWidgets.QWidget(mainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.studentTable = QtWidgets.QTableWidget(self.centralwidget)
         self.studentTable.setGeometry(QtCore.QRect(10, 10, 811, 751))
         self.studentTable.setFocusPolicy(QtCore.Qt.NoFocus)
-        self.studentTable.setRowCount(10)
+        self.studentTable.setRowCount(15)
         self.studentTable.setColumnCount(5)
         self.studentTable.setObjectName("studentTable")
         self.studentTable.horizontalHeader().setVisible(False)
-        self.studentTable.horizontalHeader().setDefaultSectionSize(161)
+        self.studentTable.horizontalHeader().setDefaultSectionSize(158)
         self.studentTable.horizontalHeader().setHighlightSections(False)
         self.studentTable.horizontalHeader().setMinimumSectionSize(39)
         self.studentTable.verticalHeader().setVisible(False)
         self.studentTable.verticalHeader().setDefaultSectionSize(187)
         self.studentTable.verticalHeader().setHighlightSections(False)
-        self.extraList = QtWidgets.QListWidget(self.centralwidget)
-        self.extraList.setGeometry(QtCore.QRect(830, 90, 241, 671))
-        self.extraList.setAutoFillBackground(False)
-        self.extraList.setProperty("isWrapping", True)
-        self.extraList.setGridSize(QtCore.QSize(0, 0))
-        self.extraList.setWordWrap(True)
-        self.extraList.setObjectName("extraList")
         self.numberEntry = QtWidgets.QLineEdit(self.centralwidget)
         self.numberEntry.setGeometry(QtCore.QRect(830, 10, 241, 41))
         self.numberEntry.setObjectName("numberEntry")
         self.mentorTable = QtWidgets.QTableWidget(self.centralwidget)
         self.mentorTable.setGeometry(QtCore.QRect(1080, 10, 331, 751))
         self.mentorTable.setFocusPolicy(QtCore.Qt.NoFocus)
-        self.mentorTable.setRowCount(10)
+        self.mentorTable.setRowCount(15)
         self.mentorTable.setColumnCount(2)
         self.mentorTable.setObjectName("mentorTable")
         self.mentorTable.horizontalHeader().setVisible(False)
-        self.mentorTable.horizontalHeader().setDefaultSectionSize(164)
+        self.mentorTable.horizontalHeader().setDefaultSectionSize(156)
         self.mentorTable.horizontalHeader().setHighlightSections(False)
         self.mentorTable.verticalHeader().setVisible(False)
         self.mentorTable.verticalHeader().setDefaultSectionSize(187)
         self.mentorTable.verticalHeader().setHighlightSections(False)
-        MainWindow.setCentralWidget(self.centralwidget)
-        self.menubar = QtWidgets.QMenuBar(MainWindow)
+        self.leaderboardLabel = QtWidgets.QLabel(self.centralwidget)
+        self.leaderboardLabel.setGeometry(QtCore.QRect(830, 70, 241, 61))
+        font = QtGui.QFont()
+        font.setFamily("Comic Sans MS")
+        font.setPointSize(26)
+        self.leaderboardLabel.setFont(font)
+        self.leaderboardLabel.setAlignment(QtCore.Qt.AlignHCenter | QtCore.Qt.AlignTop)
+        self.leaderboardLabel.setObjectName("leaderboardLabel")
+        self.leaderboardTable = QtWidgets.QTableWidget(self.centralwidget)
+        self.leaderboardTable.setGeometry(QtCore.QRect(830, 120, 241, 641))
+        font = QtGui.QFont()
+        font.setFamily("Comic Sans MS")
+        font.setPointSize(10)
+        self.leaderboardTable.setFont(font)
+        self.leaderboardTable.setRowCount(10)
+        self.leaderboardTable.setColumnCount(1)
+        self.leaderboardTable.setObjectName("leaderboardTable")
+        self.leaderboardTable.horizontalHeader().setVisible(False)
+        self.leaderboardTable.horizontalHeader().setDefaultSectionSize(300)
+        self.leaderboardTable.verticalHeader().setVisible(True)
+        self.leaderboardTable.verticalHeader().setDefaultSectionSize(63)
+        self.leaderboardTable.verticalHeader().setSortIndicatorShown(False)
+        mainWindow.setCentralWidget(self.centralwidget)
+        self.menubar = QtWidgets.QMenuBar(mainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 1420, 21))
         self.menubar.setObjectName("menubar")
         self.menuFile = QtWidgets.QMenu(self.menubar)
         self.menuFile.setObjectName("menuFile")
         self.menuActions = QtWidgets.QMenu(self.menubar)
         self.menuActions.setObjectName("menuActions")
-        MainWindow.setMenuBar(self.menubar)
-        self.statusbar = QtWidgets.QStatusBar(MainWindow)
+        mainWindow.setMenuBar(self.menubar)
+        self.statusbar = QtWidgets.QStatusBar(mainWindow)
         self.statusbar.setObjectName("statusbar")
-        MainWindow.setStatusBar(self.statusbar)
-        self.actionClear_All = QtWidgets.QAction(MainWindow)
+        mainWindow.setStatusBar(self.statusbar)
+        self.actionClear_All = QtWidgets.QAction(mainWindow)
         self.actionClear_All.setObjectName("actionClear_All")
-        self.actionSign_Out_All = QtWidgets.QAction(MainWindow)
+        self.actionSign_Out_All = QtWidgets.QAction(mainWindow)
         self.actionSign_Out_All.setObjectName("actionSign_Out_All")
         self.menuActions.addAction(self.actionClear_All)
         self.menuActions.addAction(self.actionSign_Out_All)
         self.menubar.addAction(self.menuFile.menuAction())
         self.menubar.addAction(self.menuActions.menuAction())
 
-        self.retranslateUi(MainWindow)
-        self.extraList.setCurrentRow(-1)
-        QtCore.QMetaObject.connectSlotsByName(MainWindow)
+        self.retranslateUi(mainWindow)
+        QtCore.QMetaObject.connectSlotsByName(mainWindow)
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
-        self.menuFile.setTitle(_translate("MainWindow", "File"))
-        self.menuActions.setTitle(_translate("MainWindow", "Actions"))
-        self.actionClear_All.setText(_translate("MainWindow", "Clear All"))
-        self.actionSign_Out_All.setText(_translate("MainWindow", "Sign Out All"))
+        mainWindow.setWindowTitle(_translate("mainWindow", "MainWindow"))
+        self.leaderboardLabel.setText(_translate("mainWindow", "Leaderboard"))
+        self.menuFile.setTitle(_translate("mainWindow", "File"))
+        self.menuActions.setTitle(_translate("mainWindow", "Actions"))
+        self.actionClear_All.setText(_translate("mainWindow", "Clear All"))
+        self.actionSign_Out_All.setText(_translate("mainWindow", "Sign Out All"))
 
     #  configures tables and widgets and stuff
     def configureStuff(self):
@@ -311,6 +324,12 @@ def updateRecordFile():
     file = open("data/record.pear", 'w')
     file.truncate(0)
     sorted_record = sorted(record.items(), key=lambda kv: kv[1])  # sort by item, gives list of tuples
+
+    #  clear leaderboards to prepare for update
+    for i in range(0, 9):
+        ui.leaderboardTable.removeCellWidget(0,i)
+
+    #  loop through all names
     for i in range(0, len(record.keys())):
         index = len(sorted_record)-i-1  # go in reverse, greatest first
         name = sorted_record[index][0]
@@ -318,22 +337,29 @@ def updateRecordFile():
         minutes = int(sorted_record[index][1] % 3600 / 60)
         seconds = int(sorted_record[index][1] % 60)
         toWrite = name + " | " + str("%02d" % hours) + ":" + str("%02d" % minutes) + ":" + str("%02d" % seconds) + "\n"
+        file.write(toWrite)
 
-        b64 = base64.b64encode(bytes(toWrite, "utf-8"))  # encode to base 64
-
-        file.write(b64)
+        #  add name to leaderboard if in the first 10
+        if i < 10:
+            print(i)
+            leaderboardNameLabel = QtWidgets.QLabel()
+            leaderboardNameLabel.setText(name)
+            print(leaderboardNameLabel.text())
+            ui.leaderboardTable.setCellWidget(i, 0, leaderboardNameLabel)
     file.close()
 
 
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
-    MainWindow = QtWidgets.QMainWindow()
-    ui = Ui_MainWindow()
-    ui.setupUi(MainWindow)
-    MainWindow.show()
+    mainWindow = QtWidgets.QMainWindow()
+    ui = Ui_mainWindow()
+    ui.setupUi(mainWindow)
+    mainWindow.show()
 
-    setup();
-    Ui_MainWindow.configureStuff(ui)
+    setup()
+    Ui_mainWindow.configureStuff(ui)
 
     sys.exit(app.exec_())
+
+
