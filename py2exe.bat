@@ -1,1 +1,0 @@
-pyinstaller -F --onedir --noupx --hidden-import PyQt5.sip --onefile --windowed --icon=res/Pearadox_Logo.ico PearLogger.py

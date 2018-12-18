@@ -8,7 +8,7 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from pathlib import Path
-import re, time, os, sys
+import re, time
 
 peopleDict = dict()  # k: ID number  v: tuple (name, picture_path, type (s=student/m=mentor)
 signedIn = list()  # numbers representing profile ID numbers
@@ -18,31 +18,26 @@ record = dict()
 
 #  pyinstaller hates all life on earth, this prevents that
 #  any relative path needs to be referenced using this or the python overlords will throw you into the pit of errors.
-def resource_path(relative_path):
-    if hasattr(sys, '_MEIPASS'):
-        return os.path.join(sys._MEIPASS, relative_path)
-    return os.path.join(os.path.abspath("."), relative_path)
-
 
 def setup():
     #  read in data
-    people_file = Path(resource_path("data/people.pear"))
-    record_file = Path(resource_path("data/record.pear"))
+    people_file = Path("data/people.pear")
+    record_file = Path("data/record.pear")
 
     if not people_file.exists():
         #  create new people file
-        file = open(resource_path("data/people.pear", 'w'))
+        file = open("data/people.pear", 'w')
         #  write in example data
         file.write("0;example name;example_picture.jpg")
         file.close()
 
     if not record_file.exists():
         #  create new record file
-        file = open(resource_path("data/record.pear", 'w'))
+        file = open("data/record.pear", 'w')
         file.close()
 
     #  process people into dictionary
-    with open(resource_path("data/people.pear")) as inf:
+    with open("data/people.pear") as inf:
         lineCount = 0
         for line in inf:
             lineCount += 1
@@ -53,13 +48,12 @@ def setup():
                 delimited = re.split(';', raw)
                 number = str.strip(delimited[0])
                 name = str.strip(delimited[1])
-                picture_path = Path(resource_path("data/profilepics/"+str.strip(delimited[2])))
+                picture_path = Path("data/profilepics/"+str.strip(delimited[2]))
                 type = str.strip(delimited[3])
 
                 #  make sure picture works or is not empty. otherwise use default
-                if(len(str(picture_path)) is 0 or not picture_path.exists()):
-                    picture_path = Path(resource_path("data/profilepics/default.jpg"))
-
+                if (len(str(picture_path)) is 0) or (not picture_path.exists()):
+                    picture_path = Path('data/profilepics/default.jpg')
             except:
                 print("ERROR: Parsing error in people file (data/people.pear, line " + str(lineCount) + ")")
 
@@ -73,7 +67,7 @@ def setup():
             peopleDict[number] = (name, str(picture_path), type)
 
     #  process hours into dictionary
-    with open(resource_path("data/record.pear")) as inf:
+    with open("data/record.pear") as inf:
         for line in inf:
             delimited = re.split('\|', line)
             name = str.strip(delimited[0])
