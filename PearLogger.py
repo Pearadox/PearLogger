@@ -8,7 +8,7 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from pathlib import Path
-import re, time
+import re, time, os, sys
 
 peopleDict = dict()  # k: ID number  v: tuple (name, picture_path, type (s=student/m=mentor)
 signedIn = list()  # numbers representing profile ID numbers
@@ -16,25 +16,33 @@ log = dict()  # k: ID number  v: long (log in time in seconds)
 record = dict()
 
 
+#  pyinstaller hates all life on earth, this prevents that
+#  any relative path needs to be referenced using this or the python overlords will throw you into the pit of errors.
+def resource_path(relative_path):
+    if hasattr(sys, '_MEIPASS'):
+        return os.path.join(sys._MEIPASS, relative_path)
+    return os.path.join(os.path.abspath("."), relative_path)
+
+
 def setup():
     #  read in data
-    people_file = Path("data/people.pear")
-    record_file = Path("data/record.pear")
+    people_file = Path(resource_path("data/people.pear"))
+    record_file = Path(resource_path("data/record.pear"))
 
     if not people_file.exists():
         #  create new people file
-        file = open("data/people.pear", 'w')
+        file = open(resource_path("data/people.pear", 'w'))
         #  write in example data
         file.write("0;example name;example_picture.jpg")
         file.close()
 
     if not record_file.exists():
         #  create new record file
-        file = open("data/record.pear", 'w')
+        file = open(resource_path("data/record.pear", 'w'))
         file.close()
 
     #  process people into dictionary
-    with open("data/people.pear") as inf:
+    with open(resource_path("data/people.pear")) as inf:
         lineCount = 0
         for line in inf:
             lineCount += 1
@@ -45,18 +53,18 @@ def setup():
                 delimited = re.split(';', raw)
                 number = str.strip(delimited[0])
                 name = str.strip(delimited[1])
-                picture_path = Path("data/profilepics/"+str.strip(delimited[2]))
+                picture_path = Path(resource_path("data/profilepics/"+str.strip(delimited[2])))
                 type = str.strip(delimited[3])
 
                 #  make sure picture works or is not empty. otherwise use default
                 if(len(str(picture_path)) is 0 or not picture_path.exists()):
-                    picture_path = Path("data/profilepics/default.jpg")
+                    picture_path = Path(resource_path("data/profilepics/default.jpg"))
 
             except:
                 print("ERROR: Parsing error in people file (data/people.pear, line " + str(lineCount) + ")")
 
             #  check if number already exists in dictionary
-            if (number in peopleDict.keys()):
+            if number in peopleDict.keys():
                 print("ERROR: Duplicate numbers in people file (#" + number + ") (data/people.pear, line " + str(
                     lineCount) + ")")
                 continue
@@ -65,7 +73,7 @@ def setup():
             peopleDict[number] = (name, str(picture_path), type)
 
     #  process hours into dictionary
-    with open("data/record.pear") as inf:
+    with open(resource_path("data/record.pear")) as inf:
         for line in inf:
             delimited = re.split('\|', line)
             name = str.strip(delimited[0])
@@ -74,38 +82,38 @@ def setup():
             total_seconds = int(time_delimited[0]) * 3600 + int(time_delimited[1]) * 60 + int(time_delimited[2])
             record[name] = total_seconds
 
+    updateRecordFile()
 
 class Ui_mainWindow(object):
 
     def setupUi(self, MainWindow):
         mainWindow.setObjectName("mainWindow")
-        mainWindow.resize(1420, 800)
+        mainWindow.resize(1920, 1080)
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("G:/Private/Pictures/Pearadox Logo.PNG"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         mainWindow.setWindowIcon(icon)
         self.centralwidget = QtWidgets.QWidget(mainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.studentTable = QtWidgets.QTableWidget(self.centralwidget)
-        self.studentTable.setGeometry(QtCore.QRect(10, 10, 811, 751))
+        self.studentTable.setGeometry(QtCore.QRect(10, 10, 1071, 1011))
         self.studentTable.setFocusPolicy(QtCore.Qt.NoFocus)
         self.studentTable.setRowCount(15)
-        self.studentTable.setColumnCount(5)
+        self.studentTable.setColumnCount(6)
         self.studentTable.setObjectName("studentTable")
         self.studentTable.horizontalHeader().setVisible(False)
-        self.studentTable.horizontalHeader().setDefaultSectionSize(158)
+        self.studentTable.horizontalHeader().setDefaultSectionSize(174)
         self.studentTable.horizontalHeader().setHighlightSections(False)
         self.studentTable.horizontalHeader().setMinimumSectionSize(39)
         self.studentTable.verticalHeader().setVisible(False)
         self.studentTable.verticalHeader().setDefaultSectionSize(187)
         self.studentTable.verticalHeader().setHighlightSections(False)
         self.numberEntry = QtWidgets.QLineEdit(self.centralwidget)
-        self.numberEntry.setGeometry(QtCore.QRect(830, 10, 241, 41))
+        self.numberEntry.setGeometry(QtCore.QRect(1130, 10, 241, 41))
         self.numberEntry.setObjectName("numberEntry")
         self.mentorTable = QtWidgets.QTableWidget(self.centralwidget)
-        self.mentorTable.setGeometry(QtCore.QRect(1080, 10, 331, 751))
+        self.mentorTable.setGeometry(QtCore.QRect(1430, 0, 491, 1021))
         self.mentorTable.setFocusPolicy(QtCore.Qt.NoFocus)
         self.mentorTable.setRowCount(15)
-        self.mentorTable.setColumnCount(2)
+        self.mentorTable.setColumnCount(3)
         self.mentorTable.setObjectName("mentorTable")
         self.mentorTable.horizontalHeader().setVisible(False)
         self.mentorTable.horizontalHeader().setDefaultSectionSize(156)
@@ -114,7 +122,7 @@ class Ui_mainWindow(object):
         self.mentorTable.verticalHeader().setDefaultSectionSize(187)
         self.mentorTable.verticalHeader().setHighlightSections(False)
         self.leaderboardLabel = QtWidgets.QLabel(self.centralwidget)
-        self.leaderboardLabel.setGeometry(QtCore.QRect(830, 70, 241, 61))
+        self.leaderboardLabel.setGeometry(QtCore.QRect(1080, 310, 341, 61))
         font = QtGui.QFont()
         font.setFamily("Comic Sans MS")
         font.setPointSize(26)
@@ -122,7 +130,7 @@ class Ui_mainWindow(object):
         self.leaderboardLabel.setAlignment(QtCore.Qt.AlignHCenter | QtCore.Qt.AlignTop)
         self.leaderboardLabel.setObjectName("leaderboardLabel")
         self.leaderboardTable = QtWidgets.QTableWidget(self.centralwidget)
-        self.leaderboardTable.setGeometry(QtCore.QRect(830, 120, 241, 641))
+        self.leaderboardTable.setGeometry(QtCore.QRect(1090, 380, 331, 641))
         font = QtGui.QFont()
         font.setFamily("Comic Sans MS")
         font.setPointSize(10)
@@ -137,7 +145,7 @@ class Ui_mainWindow(object):
         self.leaderboardTable.verticalHeader().setSortIndicatorShown(False)
         mainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(mainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 1420, 21))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 1920, 26))
         self.menubar.setObjectName("menubar")
         self.menuFile = QtWidgets.QMenu(self.menubar)
         self.menuFile.setObjectName("menuFile")
@@ -159,7 +167,8 @@ class Ui_mainWindow(object):
         self.retranslateUi(mainWindow)
         QtCore.QMetaObject.connectSlotsByName(mainWindow)
 
-    def retranslateUi(self, MainWindow):
+
+    def retranslateUi(self, mainWindow):
         _translate = QtCore.QCoreApplication.translate
         mainWindow.setWindowTitle(_translate("mainWindow", "MainWindow"))
         self.leaderboardLabel.setText(_translate("mainWindow", "Leaderboard"))
@@ -168,11 +177,14 @@ class Ui_mainWindow(object):
         self.actionClear_All.setText(_translate("mainWindow", "Clear All"))
         self.actionSign_Out_All.setText(_translate("mainWindow", "Sign Out All"))
 
+
     #  configures tables and widgets and stuff
     def configureStuff(self):
 
         #  random custom configurations for the ui
         self.studentTable.setEditTriggers(QtWidgets.QTableWidget.NoEditTriggers)  #  make cells unhighlightable
+        self.actionSign_Out_All.triggered.connect(signOutAll)
+        self.actionClear_All.triggered.connect(clearAll)
 
         #  enter key will call logEntry method
         self.numberEntry.returnPressed.connect(self.logEntry)
@@ -194,7 +206,7 @@ class Ui_mainWindow(object):
 
         #  decide whether to sign the number in/out
         if number in signedIn:
-            logout(number)
+            logout(number, False)
         else:
             login(number)
 
@@ -232,7 +244,8 @@ def login(number):
 
 
 #  essentially signs everyone out then everyone back in except the one who just logged out (removes gaps)
-def logout(number):
+#  number = ID; clear = don't record hours(boolean)
+def logout(number, clear):
     #  removes person from signed in list, stops tracking time
     signedIn.remove(number)
 
@@ -241,10 +254,12 @@ def logout(number):
     name = peopleDict[number][0]
     if name not in record.keys():
         record[name] = 0
+    if clear:
+        loginTime = 0
     record[name] += loginTime
     updateRecordFile()
 
-    #  count number of mentors, used for determining which row/col to put icon in
+    #  count number of mentors, used for determining which row/col to remove from
     mentorCount = 0
     for i in signedIn:
         if peopleDict[i][2] == 'm':
@@ -287,6 +302,18 @@ def logout(number):
                 mentorsEncountered += 1
                 continue
             createIDBox(signedIn[i], (i-mentorsEncountered) / columns, (i-mentorsEncountered) % columns)
+
+
+#  signs out all people
+def signOutAll():
+    while len(signedIn) > 0:
+        logout(signedIn[0], False)
+
+
+#  clears all people, doesn't record hours
+def clearAll():
+    while len(signedIn) > 0:
+        logout(signedIn[0], True)
 
 
 def createIDBox(number, row, column):
@@ -341,10 +368,8 @@ def updateRecordFile():
 
         #  add name to leaderboard if in the first 10
         if i < 10:
-            print(i)
             leaderboardNameLabel = QtWidgets.QLabel()
             leaderboardNameLabel.setText(name)
-            print(leaderboardNameLabel.text())
             ui.leaderboardTable.setCellWidget(i, 0, leaderboardNameLabel)
     file.close()
 

@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'PearLog.ui'
 #
-# Created by: PyQt5 UI code generator 5.11.3
+# Created by: PyQt5 UI code generator 5.11.2
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -11,33 +11,33 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_mainWindow(object):
     def setupUi(self, mainWindow):
         mainWindow.setObjectName("mainWindow")
-        mainWindow.resize(1420, 800)
+        mainWindow.resize(1920, 1080)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap("G:/Private/Pictures/Pearadox Logo.PNG"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         mainWindow.setWindowIcon(icon)
         self.centralwidget = QtWidgets.QWidget(mainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.studentTable = QtWidgets.QTableWidget(self.centralwidget)
-        self.studentTable.setGeometry(QtCore.QRect(10, 10, 811, 751))
+        self.studentTable.setGeometry(QtCore.QRect(10, 10, 1071, 1011))
         self.studentTable.setFocusPolicy(QtCore.Qt.NoFocus)
         self.studentTable.setRowCount(15)
-        self.studentTable.setColumnCount(5)
+        self.studentTable.setColumnCount(6)
         self.studentTable.setObjectName("studentTable")
         self.studentTable.horizontalHeader().setVisible(False)
-        self.studentTable.horizontalHeader().setDefaultSectionSize(158)
+        self.studentTable.horizontalHeader().setDefaultSectionSize(174)
         self.studentTable.horizontalHeader().setHighlightSections(False)
         self.studentTable.horizontalHeader().setMinimumSectionSize(39)
         self.studentTable.verticalHeader().setVisible(False)
         self.studentTable.verticalHeader().setDefaultSectionSize(187)
         self.studentTable.verticalHeader().setHighlightSections(False)
         self.numberEntry = QtWidgets.QLineEdit(self.centralwidget)
-        self.numberEntry.setGeometry(QtCore.QRect(830, 10, 241, 41))
+        self.numberEntry.setGeometry(QtCore.QRect(1130, 10, 241, 41))
         self.numberEntry.setObjectName("numberEntry")
         self.mentorTable = QtWidgets.QTableWidget(self.centralwidget)
-        self.mentorTable.setGeometry(QtCore.QRect(1080, 10, 331, 751))
+        self.mentorTable.setGeometry(QtCore.QRect(1430, 0, 491, 1021))
         self.mentorTable.setFocusPolicy(QtCore.Qt.NoFocus)
         self.mentorTable.setRowCount(15)
-        self.mentorTable.setColumnCount(2)
+        self.mentorTable.setColumnCount(3)
         self.mentorTable.setObjectName("mentorTable")
         self.mentorTable.horizontalHeader().setVisible(False)
         self.mentorTable.horizontalHeader().setDefaultSectionSize(156)
@@ -46,7 +46,7 @@ class Ui_mainWindow(object):
         self.mentorTable.verticalHeader().setDefaultSectionSize(187)
         self.mentorTable.verticalHeader().setHighlightSections(False)
         self.leaderboardLabel = QtWidgets.QLabel(self.centralwidget)
-        self.leaderboardLabel.setGeometry(QtCore.QRect(830, 70, 241, 61))
+        self.leaderboardLabel.setGeometry(QtCore.QRect(1080, 310, 341, 61))
         font = QtGui.QFont()
         font.setFamily("Comic Sans MS")
         font.setPointSize(26)
@@ -54,7 +54,7 @@ class Ui_mainWindow(object):
         self.leaderboardLabel.setAlignment(QtCore.Qt.AlignHCenter|QtCore.Qt.AlignTop)
         self.leaderboardLabel.setObjectName("leaderboardLabel")
         self.leaderboardTable = QtWidgets.QTableWidget(self.centralwidget)
-        self.leaderboardTable.setGeometry(QtCore.QRect(830, 120, 241, 641))
+        self.leaderboardTable.setGeometry(QtCore.QRect(1090, 380, 331, 641))
         font = QtGui.QFont()
         font.setFamily("Comic Sans MS")
         font.setPointSize(10)
@@ -69,7 +69,7 @@ class Ui_mainWindow(object):
         self.leaderboardTable.verticalHeader().setSortIndicatorShown(False)
         mainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(mainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 1420, 21))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 1920, 26))
         self.menubar.setObjectName("menubar")
         self.menuFile = QtWidgets.QMenu(self.menubar)
         self.menuFile.setObjectName("menuFile")
