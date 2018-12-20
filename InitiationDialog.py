@@ -13,7 +13,6 @@ def yellAtUser(title, message):
     msg.setIcon(QtWidgets.QMessageBox.Critical)  # set the icon of the prompt
     msg.setWindowTitle(title)
     msg.setText(message)
-
     msg.setStandardButtons(QtWidgets.QMessageBox.Ok)  # set the buttons available on the prompt
     msg.exec()
 
@@ -24,7 +23,6 @@ def tellUser(title,message):
     msg.setIcon(QtWidgets.QMessageBox.Information)  # set the icon of the prompt
     msg.setWindowTitle(title)
     msg.setText(message)
-    msg.resize(500,500)
     msg.setStandardButtons(QtWidgets.QMessageBox.Ok)  # set the buttons available on the prompt
     msg.exec()
 
@@ -104,6 +102,7 @@ class Ui_initiationDialog(object):
         self.nameLabel_3.setObjectName("nameLabel_3")
         self.pictureLineEdit = QtWidgets.QLineEdit(initiationDialog)
         self.pictureLineEdit.setGeometry(QtCore.QRect(80, 230, 251, 20))
+        self.pictureLineEdit.setText("")
         self.pictureLineEdit.setObjectName("pictureLineEdit")
         self.browseButton = QtWidgets.QPushButton(initiationDialog)
         self.browseButton.setGeometry(QtCore.QRect(340, 230, 51, 21))
@@ -148,6 +147,15 @@ class Ui_initiationDialog(object):
         font.setPointSize(12)
         self.addPersonButton.setFont(font)
         self.addPersonButton.setObjectName("addPersonButton")
+        self.statusLabel = QtWidgets.QLabel(initiationDialog)
+        self.statusLabel.setGeometry(QtCore.QRect(130, 320, 251, 41))
+        font = QtGui.QFont()
+        font.setFamily("Comic Sans MS")
+        font.setPointSize(10)
+        self.statusLabel.setFont(font)
+        self.statusLabel.setText("")
+        self.statusLabel.setWordWrap(True)
+        self.statusLabel.setObjectName("statusLabel")
 
         self.retranslateUi(initiationDialog)
         QtCore.QMetaObject.connectSlotsByName(initiationDialog)
@@ -232,6 +240,11 @@ class Ui_initiationDialog(object):
         #  rewrite the people file so it includes the new person
         rewritePeopleFile()
 
+        #  tell person everything worked
+        self.statusLabel.setText("Successfully added " + name + " (#" + ID + ")")
+
+        self.nameLineEdit.clear()
+
     #  open file browser to get picture
     def browseAction(self):
         path = QtWidgets.QFileDialog.getOpenFileName(None, "QFileDialog.getOpenFileName()", "",
@@ -257,7 +270,59 @@ class Ui_initiationDialog(object):
             yellAtUser("Error with Picture", "Please move the picture to data/profilepics/ and try again")
 
     def importCSV(self):
-        csv = QtWidgets.QFileDialog.getOpenFileName(None, "QFileDialog.getOpenFileName()", "", "CSV Files (*.csv)")
+        csv_path = QtWidgets.QFileDialog.getOpenFileName(None, "QFileDialog.getOpenFileName()", "", "CSV Files (*.csv)")
+        csv = open(csv_path[0], mode='r')
+        lines = csv.readlines()
+        csv.close()
+
+        for line in lines:
+            delimited = re.split(',', line)
+            name = str.strip(delimited[0])
+            year = str.strip(delimited[1])
+            school = str.strip(delimited[2])
+            picName = str.strip(delimited[3])
+            type = 'm'
+
+            if len(name) is 0 or len(year) is 0 or len(type) is 0:
+                yellAtUser("Import CSV Error", "Missing data")
+                continue
+
+            if len(picName) is 0:
+                picName = "default.jpg"
+
+            full_relative_path = Path('data/profilepics/' + picName)
+
+            #  make sure picture exists in right location
+            if not full_relative_path.exists():
+                full_relative_path = Path('data/profilepics/default.jpg')
+
+            #  get school
+            if int(school) < 3:
+                type = 's'
+
+            #  generate ID
+            header = year + str(school)
+            ID = str()
+            #  find next unused tail
+            for i in range(00, 99):
+                tail = str(i)
+                #  pad zero
+                if i < 10:
+                    tail = '0' + tail
+                if (header + tail) in peopleDict.keys():
+                    continue
+                else:
+                    ID = header + tail
+                    break
+
+            #  add person to the dictionary
+            peopleDict[ID] = (name, str(full_relative_path), type)
+
+            #  rewrite the people file so it includes the new person
+            rewritePeopleFile()
+
+        tellUser("Import People as CSV", "Successfully added " + str(len(lines)) + " people")
+
 
     def studentCheckboxAction(self):
         if self.notStudentCheckBox.isChecked():

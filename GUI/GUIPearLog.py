@@ -83,10 +83,14 @@ class Ui_mainWindow(object):
         self.actionSign_Out_All.setObjectName("actionSign_Out_All")
         self.actionAdd_Person = QtWidgets.QAction(mainWindow)
         self.actionAdd_Person.setObjectName("actionAdd_Person")
+        self.actionReload_Data = QtWidgets.QAction(mainWindow)
+        self.actionReload_Data.setObjectName("actionReload_Data")
         self.menuActions.addAction(self.actionSign_Out_All)
         self.menuActions.addAction(self.actionClear_All)
         self.menuActions.addSeparator()
         self.menuActions.addAction(self.actionAdd_Person)
+        self.menuActions.addSeparator()
+        self.menuActions.addAction(self.actionReload_Data)
         self.menubar.addAction(self.menuActions.menuAction())
 
         self.retranslateUi(mainWindow)
@@ -100,6 +104,7 @@ class Ui_mainWindow(object):
         self.actionClear_All.setText(_translate("mainWindow", "Clear All"))
         self.actionSign_Out_All.setText(_translate("mainWindow", "Sign Out All"))
         self.actionAdd_Person.setText(_translate("mainWindow", "Add Person"))
+        self.actionReload_Data.setText(_translate("mainWindow", "Reload Data"))
 
 
 if __name__ == "__main__":

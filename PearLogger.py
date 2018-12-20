@@ -30,6 +30,7 @@ def tellUser(title,message):
     msg.setStandardButtons(QtWidgets.QMessageBox.Ok)  # set the buttons available on the prompt
     msg.exec()
 
+
 def setup():
     #  read in data
     people_file = Path("data/people.pear")
@@ -81,11 +82,11 @@ def setup():
     with open("data/record.pear") as inf:
         for line in inf:
             delimited = re.split('\|', line)
-            name = str.strip(delimited[0])
+            ID = str.strip(delimited[0])
             time_raw = str.strip(delimited[1])
             time_delimited = re.split(':', time_raw)
             total_seconds = int(time_delimited[0]) * 3600 + int(time_delimited[1]) * 60 + int(time_delimited[2])
-            record[name] = total_seconds
+            record[ID] = total_seconds
 
     updateRecordFile()
 
@@ -106,7 +107,7 @@ class Ui_mainWindow(object):
         self.studentTable.setColumnCount(6)
         self.studentTable.setObjectName("studentTable")
         self.studentTable.horizontalHeader().setVisible(False)
-        self.studentTable.horizontalHeader().setDefaultSectionSize(174)
+        self.studentTable.horizontalHeader().setDefaultSectionSize(175)
         self.studentTable.horizontalHeader().setHighlightSections(False)
         self.studentTable.horizontalHeader().setMinimumSectionSize(39)
         self.studentTable.verticalHeader().setVisible(False)
@@ -165,10 +166,14 @@ class Ui_mainWindow(object):
         self.actionSign_Out_All.setObjectName("actionSign_Out_All")
         self.actionAdd_Person = QtWidgets.QAction(mainWindow)
         self.actionAdd_Person.setObjectName("actionAdd_Person")
+        self.actionReload_Data = QtWidgets.QAction(mainWindow)
+        self.actionReload_Data.setObjectName("actionReload_Data")
         self.menuActions.addAction(self.actionSign_Out_All)
         self.menuActions.addAction(self.actionClear_All)
         self.menuActions.addSeparator()
         self.menuActions.addAction(self.actionAdd_Person)
+        self.menuActions.addSeparator()
+        self.menuActions.addAction(self.actionReload_Data)
         self.menubar.addAction(self.menuActions.menuAction())
 
         self.retranslateUi(mainWindow)
@@ -183,6 +188,7 @@ class Ui_mainWindow(object):
         self.actionClear_All.setText(_translate("mainWindow", "Clear All"))
         self.actionSign_Out_All.setText(_translate("mainWindow", "Sign Out All"))
         self.actionAdd_Person.setText(_translate("mainWindow", "Add Person"))
+        self.actionReload_Data.setText(_translate("mainWindow", "Reload Data"))
 
     #  configures tables and widgets and stuff
     def configureStuff(self):
@@ -192,6 +198,7 @@ class Ui_mainWindow(object):
         self.actionSign_Out_All.triggered.connect(signOutAll)
         self.actionClear_All.triggered.connect(clearAll)
         self.actionAdd_Person.triggered.connect(openInitiationDialog)
+        self.actionReload_Data.triggered.connect(setup)
 
         #  enter key will call logEntry method
         self.numberEntry.returnPressed.connect(self.logEntry)
@@ -259,11 +266,11 @@ def logout(number, clear):
     #  adds new time to record and updates it
     loginTime = int(time.time() - log[number])
     name = peopleDict[number][0]
-    if name not in record.keys():
-        record[name] = 0
+    if number not in record.keys():
+        record[number] = 0
     if clear:
         loginTime = 0
-    record[name] += loginTime
+    record[number] += loginTime
     updateRecordFile()
 
     #  count number of mentors, used for determining which row/col to remove from
@@ -366,23 +373,30 @@ def updateRecordFile():
     #  loop through all names
     for i in range(0, len(record.keys())):
         index = len(sorted_record)-i-1  # go in reverse, greatest first
-        name = sorted_record[index][0]
+        ID = sorted_record[index][0]
         hours = int(sorted_record[index][1] / 3600)
         minutes = int(sorted_record[index][1] % 3600 / 60)
         seconds = int(sorted_record[index][1] % 60)
-        toWrite = name + " | " + str("%02d" % hours) + ":" + str("%02d" % minutes) + ":" + str("%02d" % seconds) + "\n"
+        toWrite = ID + " | " + str("%02d" % hours) + ":" + str("%02d" % minutes) + ":" + str("%02d" % seconds) + "\n"
+
+        if ID not in peopleDict.keys():
+            i -= 1
+            continue
+
         file.write(toWrite)
 
         #  add name to leaderboard if in the first 10
         if i < 10:
             leaderboardNameLabel = QtWidgets.QLabel()
-            leaderboardNameLabel.setText(name)
+            leaderboardNameLabel.setText(peopleDict[ID][0])
             ui.leaderboardTable.setCellWidget(i, 0, leaderboardNameLabel)
     file.close()
 
 
 def openInitiationDialog():
-    InitiationDialog = QtWidgets.QDialog()
+    #  Hides the question mark
+    InitiationDialog = QtWidgets.QDialog(None, QtCore.Qt.WindowSystemMenuHint | QtCore.Qt.WindowTitleHint |
+                                         QtCore.Qt.WindowCloseButtonHint)
     InitiationDialog.ui = Form()
     InitiationDialog.ui.setupUi(InitiationDialog)
     InitiationDialog.ui.setup()

@@ -232,6 +232,8 @@
     <addaction name="actionClear_All"/>
     <addaction name="separator"/>
     <addaction name="actionAdd_Person"/>
+    <addaction name="separator"/>
+    <addaction name="actionReload_Data"/>
    </widget>
    <addaction name="menuActions"/>
   </widget>
@@ -249,6 +251,11 @@
   <action name="actionAdd_Person">
    <property name="text">
     <string>Add Person</string>
+   </property>
+  </action>
+  <action name="actionReload_Data">
+   <property name="text">
+    <string>Reload Data</string>
    </property>
   </action>
  </widget>
