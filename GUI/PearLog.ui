@@ -40,7 +40,7 @@
      <bool>false</bool>
     </attribute>
     <attribute name="horizontalHeaderDefaultSectionSize">
-     <number>174</number>
+     <number>175</number>
     </attribute>
     <attribute name="horizontalHeaderHighlightSections">
      <bool>false</bool>
@@ -221,22 +221,18 @@
      <x>0</x>
      <y>0</y>
      <width>1920</width>
-     <height>26</height>
+     <height>21</height>
     </rect>
    </property>
-   <widget class="QMenu" name="menuFile">
-    <property name="title">
-     <string>File</string>
-    </property>
-   </widget>
    <widget class="QMenu" name="menuActions">
     <property name="title">
      <string>Actions</string>
     </property>
-    <addaction name="actionClear_All"/>
     <addaction name="actionSign_Out_All"/>
+    <addaction name="actionClear_All"/>
+    <addaction name="separator"/>
+    <addaction name="actionAdd_Person"/>
    </widget>
-   <addaction name="menuFile"/>
    <addaction name="menuActions"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
@@ -248,6 +244,11 @@
   <action name="actionSign_Out_All">
    <property name="text">
     <string>Sign Out All</string>
+   </property>
+  </action>
+  <action name="actionAdd_Person">
+   <property name="text">
+    <string>Add Person</string>
    </property>
   </action>
  </widget>

@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'PearLog.ui'
 #
-# Created by: PyQt5 UI code generator 5.11.2
+# Created by: PyQt5 UI code generator 5.11.3
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -24,7 +24,7 @@ class Ui_mainWindow(object):
         self.studentTable.setColumnCount(6)
         self.studentTable.setObjectName("studentTable")
         self.studentTable.horizontalHeader().setVisible(False)
-        self.studentTable.horizontalHeader().setDefaultSectionSize(174)
+        self.studentTable.horizontalHeader().setDefaultSectionSize(175)
         self.studentTable.horizontalHeader().setHighlightSections(False)
         self.studentTable.horizontalHeader().setMinimumSectionSize(39)
         self.studentTable.verticalHeader().setVisible(False)
@@ -69,10 +69,8 @@ class Ui_mainWindow(object):
         self.leaderboardTable.verticalHeader().setSortIndicatorShown(False)
         mainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(mainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 1920, 26))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 1920, 21))
         self.menubar.setObjectName("menubar")
-        self.menuFile = QtWidgets.QMenu(self.menubar)
-        self.menuFile.setObjectName("menuFile")
         self.menuActions = QtWidgets.QMenu(self.menubar)
         self.menuActions.setObjectName("menuActions")
         mainWindow.setMenuBar(self.menubar)
@@ -83,9 +81,12 @@ class Ui_mainWindow(object):
         self.actionClear_All.setObjectName("actionClear_All")
         self.actionSign_Out_All = QtWidgets.QAction(mainWindow)
         self.actionSign_Out_All.setObjectName("actionSign_Out_All")
-        self.menuActions.addAction(self.actionClear_All)
+        self.actionAdd_Person = QtWidgets.QAction(mainWindow)
+        self.actionAdd_Person.setObjectName("actionAdd_Person")
         self.menuActions.addAction(self.actionSign_Out_All)
-        self.menubar.addAction(self.menuFile.menuAction())
+        self.menuActions.addAction(self.actionClear_All)
+        self.menuActions.addSeparator()
+        self.menuActions.addAction(self.actionAdd_Person)
         self.menubar.addAction(self.menuActions.menuAction())
 
         self.retranslateUi(mainWindow)
@@ -95,10 +96,10 @@ class Ui_mainWindow(object):
         _translate = QtCore.QCoreApplication.translate
         mainWindow.setWindowTitle(_translate("mainWindow", "MainWindow"))
         self.leaderboardLabel.setText(_translate("mainWindow", "Leaderboard"))
-        self.menuFile.setTitle(_translate("mainWindow", "File"))
         self.menuActions.setTitle(_translate("mainWindow", "Actions"))
         self.actionClear_All.setText(_translate("mainWindow", "Clear All"))
         self.actionSign_Out_All.setText(_translate("mainWindow", "Sign Out All"))
+        self.actionAdd_Person.setText(_translate("mainWindow", "Add Person"))
 
 
 if __name__ == "__main__":

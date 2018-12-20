@@ -1,13 +1,7 @@
-# -*- coding: utf-8 -*-
-
-# Form implementation generated from reading ui file 'PearLog.ui'
-#
-# Created by: PyQt5 UI code generator 5.11.3
-#
-# WARNING! All changes made in this file will be lost!
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from pathlib import Path
+from InitiationDialog import Ui_initiationDialog as Form
 import re, time
 
 peopleDict = dict()  # k: ID number  v: tuple (name, picture_path, type (s=student/m=mentor)
@@ -15,9 +9,26 @@ signedIn = list()  # numbers representing profile ID numbers
 log = dict()  # k: ID number  v: long (log in time in seconds)
 record = dict()
 
+# makes a prompt window with a Error icon, makes people cry and depressed. Also gives concussions from banging heads
+def yellAtUser(title, message):
+    msg = QtWidgets.QMessageBox()
+    msg.setIcon(QtWidgets.QMessageBox.Critical)  # set the icon of the prompt
+    msg.setWindowTitle(title)
+    msg.setText(message)
+    msg.resize()
+    msg.setStandardButtons(QtWidgets.QMessageBox.Ok)  # set the buttons available on the prompt
+    msg.exec()
 
-#  pyinstaller hates all life on earth, this prevents that
-#  any relative path needs to be referenced using this or the python overlords will throw you into the pit of errors.
+
+# makes a prompt window with a Information icon, used for giving user info
+def tellUser(title,message):
+    msg = QtWidgets.QMessageBox()
+    msg.setIcon(QtWidgets.QMessageBox.Information)  # set the icon of the prompt
+    msg.setWindowTitle(title)
+    msg.setText(message)
+    msg.resize(500,500)
+    msg.setStandardButtons(QtWidgets.QMessageBox.Ok)  # set the buttons available on the prompt
+    msg.exec()
 
 def setup():
     #  read in data
@@ -84,6 +95,7 @@ class Ui_mainWindow(object):
         mainWindow.setObjectName("mainWindow")
         mainWindow.resize(1920, 1080)
         icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap("G:/Private/Pictures/Pearadox Logo.PNG"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         mainWindow.setWindowIcon(icon)
         self.centralwidget = QtWidgets.QWidget(mainWindow)
         self.centralwidget.setObjectName("centralwidget")
@@ -139,10 +151,8 @@ class Ui_mainWindow(object):
         self.leaderboardTable.verticalHeader().setSortIndicatorShown(False)
         mainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(mainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 1920, 26))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 1920, 21))
         self.menubar.setObjectName("menubar")
-        self.menuFile = QtWidgets.QMenu(self.menubar)
-        self.menuFile.setObjectName("menuFile")
         self.menuActions = QtWidgets.QMenu(self.menubar)
         self.menuActions.setObjectName("menuActions")
         mainWindow.setMenuBar(self.menubar)
@@ -153,9 +163,12 @@ class Ui_mainWindow(object):
         self.actionClear_All.setObjectName("actionClear_All")
         self.actionSign_Out_All = QtWidgets.QAction(mainWindow)
         self.actionSign_Out_All.setObjectName("actionSign_Out_All")
-        self.menuActions.addAction(self.actionClear_All)
+        self.actionAdd_Person = QtWidgets.QAction(mainWindow)
+        self.actionAdd_Person.setObjectName("actionAdd_Person")
         self.menuActions.addAction(self.actionSign_Out_All)
-        self.menubar.addAction(self.menuFile.menuAction())
+        self.menuActions.addAction(self.actionClear_All)
+        self.menuActions.addSeparator()
+        self.menuActions.addAction(self.actionAdd_Person)
         self.menubar.addAction(self.menuActions.menuAction())
 
         self.retranslateUi(mainWindow)
@@ -166,11 +179,10 @@ class Ui_mainWindow(object):
         _translate = QtCore.QCoreApplication.translate
         mainWindow.setWindowTitle(_translate("mainWindow", "MainWindow"))
         self.leaderboardLabel.setText(_translate("mainWindow", "Leaderboard"))
-        self.menuFile.setTitle(_translate("mainWindow", "File"))
         self.menuActions.setTitle(_translate("mainWindow", "Actions"))
         self.actionClear_All.setText(_translate("mainWindow", "Clear All"))
         self.actionSign_Out_All.setText(_translate("mainWindow", "Sign Out All"))
-
+        self.actionAdd_Person.setText(_translate("mainWindow", "Add Person"))
 
     #  configures tables and widgets and stuff
     def configureStuff(self):
@@ -179,6 +191,7 @@ class Ui_mainWindow(object):
         self.studentTable.setEditTriggers(QtWidgets.QTableWidget.NoEditTriggers)  #  make cells unhighlightable
         self.actionSign_Out_All.triggered.connect(signOutAll)
         self.actionClear_All.triggered.connect(clearAll)
+        self.actionAdd_Person.triggered.connect(openInitiationDialog)
 
         #  enter key will call logEntry method
         self.numberEntry.returnPressed.connect(self.logEntry)
@@ -366,6 +379,15 @@ def updateRecordFile():
             leaderboardNameLabel.setText(name)
             ui.leaderboardTable.setCellWidget(i, 0, leaderboardNameLabel)
     file.close()
+
+
+def openInitiationDialog():
+    InitiationDialog = QtWidgets.QDialog()
+    InitiationDialog.ui = Form()
+    InitiationDialog.ui.setupUi(InitiationDialog)
+    InitiationDialog.ui.setup()
+    InitiationDialog.exec_()
+    InitiationDialog.show()
 
 
 if __name__ == "__main__":
