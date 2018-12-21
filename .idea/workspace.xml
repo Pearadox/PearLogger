@@ -2,14 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="541fd2a1-b9e7-437e-bf0a-b35feedbe6d4" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/data/log.pear" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GUI/GUIPearLog.py" beforeDir="false" afterPath="$PROJECT_DIR$/GUI/GUIPearLog.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GUI/PearLog.ui" beforeDir="false" afterPath="$PROJECT_DIR$/GUI/PearLog.ui" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/InitiationDialog.py" beforeDir="false" afterPath="$PROJECT_DIR$/InitiationDialog.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/PearLogger.py" beforeDir="false" afterPath="$PROJECT_DIR$/PearLogger.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/people.pear" beforeDir="false" afterPath="$PROJECT_DIR$/data/people.pear" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/record.pear" beforeDir="false" afterPath="$PROJECT_DIR$/data/record.pear" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -23,8 +16,8 @@
       <file leaf-file-name="PearLogger.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/PearLogger.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="569">
-              <caret line="496" column="75" selection-start-line="496" selection-start-column="75" selection-end-line="496" selection-end-column="75" />
+            <state relative-caret-position="476">
+              <caret line="498" column="106" lean-forward="true" selection-start-line="498" selection-start-column="106" selection-end-line="498" selection-end-column="106" />
               <folding>
                 <element signature="e#1#43#0" expanded="true" />
                 <element signature="e#3662#8765#0" />
@@ -90,6 +83,7 @@
       <find>|</find>
       <find>print</find>
       <find>%</find>
+      <find>sorted</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -274,14 +268,13 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1096" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49790794" visible="true" weight="0.19166666" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.50033045" side_tool="true" weight="0.32841823" />
       <window_info anchor="bottom" id="Version Control" order="9" />
       <window_info anchor="bottom" id="Python Console" order="8" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49966952" visible="true" weight="0.27051672" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49966952" weight="0.27051672" />
       <window_info id="Structure" order="1" sideWeight="0.50209206" side_tool="true" weight="0.1920591" />
       <window_info anchor="bottom" id="Terminal" order="7" weight="0.32841823" />
       <window_info id="Favorites" order="2" side_tool="true" />
@@ -514,8 +507,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/PearLogger.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="569">
-          <caret line="496" column="75" selection-start-line="496" selection-start-column="75" selection-end-line="496" selection-end-column="75" />
+        <state relative-caret-position="476">
+          <caret line="498" column="106" lean-forward="true" selection-start-line="498" selection-start-column="106" selection-end-line="498" selection-end-column="106" />
           <folding>
             <element signature="e#1#43#0" expanded="true" />
             <element signature="e#3662#8765#0" />

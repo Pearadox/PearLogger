@@ -496,6 +496,7 @@ def generateReport():
                   str("%02d" % out_second) + " " + 'PM' if out_PM else 'AM'
         calculated = str(delta_h) + ":" + str(delta_m) + ":" + str(delta_s)
 
+        sorted_record = sorted(record.items(), key=lambda kv: kv[1])  # sort by item, gives list of tuples
 
 
 if __name__ == "__main__":
