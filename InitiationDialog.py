@@ -203,6 +203,7 @@ class Ui_initiationDialog(object):
         #  make sure picture exists in right location
         if not full_relative_path.exists():
             yellAtUser("Picture Not Found", "Please move the picture to data/profilepics/ and try again")
+            return
 
         #  add picture preview
         pixmap_raw = QtGui.QPixmap(str(full_relative_path))
@@ -321,7 +322,7 @@ class Ui_initiationDialog(object):
             #  rewrite the people file so it includes the new person
             rewritePeopleFile()
 
-        tellUser("Import People as CSV", "Successfully added " + str(len(lines)) + " people")
+        tellUser("Import People as CSV", "Successfully added " + str(len(lines)) + " people. Reload data to use new people")
 
 
     def studentCheckboxAction(self):
@@ -378,11 +379,12 @@ def readPeople():
                 delimited = re.split(';', raw)
                 number = str.strip(delimited[0])
                 name = str.strip(delimited[1])
-                picture_name = Path(str.strip(delimited[2]))
+                picture_name = str.strip(delimited[2])
+                full_picture_path = Path("data/profilepics/"+picture_name)
                 type = str.strip(delimited[3])
 
                 #  make sure picture works or is not empty. otherwise use default
-                if (len("data/profilepics/"+str(picture_name)) is 0) or (not picture_name.exists()):
+                if (len(str(full_picture_path)) is 0) or (not full_picture_path.exists()):
                     picture_name = Path('default.jpg')
             except:
                 print("ERROR: Parsing error in people file (data/people.pear, line " + str(lineCount) + ")")

@@ -2,12 +2,17 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from pathlib import Path
 from InitiationDialog import Ui_initiationDialog as Form
-import re, time
+import re, time, datetime
 
 peopleDict = dict()  # k: ID number  v: tuple (name, picture_path, type (s=student/m=mentor)
 signedIn = list()  # numbers representing profile ID numbers
-log = dict()  # k: ID number  v: long (log in time in seconds)
-record = dict()
+loginTime = dict()  # k: ID number  v: long (most recent login in epoch time)
+record = dict()  # k: ID number  v: seconds of login time
+timestamp = dict()  # k: ID number  v: logged in time
+
+month = ('January', 'February', 'March', 'April', 'May', 'June', 'July',
+         'August', 'September', 'October', 'November', 'December')
+weekday = ('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday')
 
 # makes a prompt window with a Error icon, makes people cry and depressed. Also gives concussions from banging heads
 def yellAtUser(title, message):
@@ -92,7 +97,7 @@ def setup():
 
 class Ui_mainWindow(object):
 
-    def setupUi(self, MainWindow):
+    def setupUi(self, mainWindow):
         mainWindow.setObjectName("mainWindow")
         mainWindow.resize(1920, 1080)
         icon = QtGui.QIcon()
@@ -168,17 +173,19 @@ class Ui_mainWindow(object):
         self.actionAdd_Person.setObjectName("actionAdd_Person")
         self.actionReload_Data = QtWidgets.QAction(mainWindow)
         self.actionReload_Data.setObjectName("actionReload_Data")
+        self.actionGenerate_Report = QtWidgets.QAction(mainWindow)
+        self.actionGenerate_Report.setObjectName("actionGenerate_Report")
         self.menuActions.addAction(self.actionSign_Out_All)
         self.menuActions.addAction(self.actionClear_All)
         self.menuActions.addSeparator()
         self.menuActions.addAction(self.actionAdd_Person)
+        self.menuActions.addAction(self.actionGenerate_Report)
         self.menuActions.addSeparator()
         self.menuActions.addAction(self.actionReload_Data)
         self.menubar.addAction(self.menuActions.menuAction())
 
         self.retranslateUi(mainWindow)
         QtCore.QMetaObject.connectSlotsByName(mainWindow)
-
 
     def retranslateUi(self, mainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -189,6 +196,7 @@ class Ui_mainWindow(object):
         self.actionSign_Out_All.setText(_translate("mainWindow", "Sign Out All"))
         self.actionAdd_Person.setText(_translate("mainWindow", "Add Person"))
         self.actionReload_Data.setText(_translate("mainWindow", "Reload Data"))
+        self.actionGenerate_Report.setText(_translate("mainWindow", "Generate Report"))
 
     #  configures tables and widgets and stuff
     def configureStuff(self):
@@ -199,6 +207,7 @@ class Ui_mainWindow(object):
         self.actionClear_All.triggered.connect(clearAll)
         self.actionAdd_Person.triggered.connect(openInitiationDialog)
         self.actionReload_Data.triggered.connect(setup)
+        self.actionGenerate_Report.triggered.connect(generateReport)
 
         #  enter key will call logEntry method
         self.numberEntry.returnPressed.connect(self.logEntry)
@@ -225,14 +234,14 @@ class Ui_mainWindow(object):
             login(number)
 
 
-def login(number):
+def login(ID):
     #  count number of mentors, used for determining which row/col to put icon in
     mentorCount = 0
     for i in signedIn:
         if peopleDict[i][2] == 'm':
             mentorCount += 1
 
-    if peopleDict[number][2] == 'm':
+    if peopleDict[ID][2] == 'm':
         #  calculate next available mentor cell
         rows = ui.mentorTable.rowCount()
         columns = ui.mentorTable.columnCount()
@@ -240,7 +249,7 @@ def login(number):
         nextRow = mentorCount / columns
         nextColumn = (mentorCount) % columns
 
-        createIDBox(number, nextRow, nextColumn)
+        createIDBox(ID, nextRow, nextColumn)
     else:
         #  calculate next available student cell
 
@@ -251,26 +260,35 @@ def login(number):
         nextRow = studentCount / columns
         nextColumn = (studentCount) % columns
 
-        createIDBox(number, nextRow, nextColumn)
+        createIDBox(ID, nextRow, nextColumn)
 
-    signedIn.append(number)
-    log[number] = time.time()
+    signedIn.append(ID)
+    loginTime[ID] = time.time()
+    timestamp[ID] = getTimeStamp()
 
 
 #  essentially signs everyone out then everyone back in except the one who just logged out (removes gaps)
-#  number = ID; clear = don't record hours(boolean)
-def logout(number, clear):
-    #  removes person from signed in list, stops tracking time
-    signedIn.remove(number)
+#  clear = don't record hours(boolean)
+def logout(ID, clear):
+    print(ID)
+    #  removes person from si1gned in list, stops tracking time
+    signedIn.remove(ID)
+
+    #  add timestamp to log file
+    log_file = open("data/log.pear", 'a')
+    log_toWrite = str(ID) + "|" + timestamp[ID] + "|" + getTimeStamp() + "\n"
+    log_file.write(log_toWrite)
+    log_file.close()
 
     #  adds new time to record and updates it
-    loginTime = int(time.time() - log[number])
-    name = peopleDict[number][0]
-    if number not in record.keys():
-        record[number] = 0
+    global loginTime
+    loginTime = int(time.time() - loginTime[ID])
+    name = peopleDict[ID][0]
+    if ID not in record.keys():
+        record[ID] = 0
     if clear:
         loginTime = 0
-    record[number] += loginTime
+    record[ID] += loginTime
     updateRecordFile()
 
     #  count number of mentors, used for determining which row/col to remove from
@@ -280,7 +298,7 @@ def logout(number, clear):
             mentorCount += 1
 
     #  decide to remove from mentor table or student table
-    if peopleDict[number][2] == 'm':
+    if peopleDict[ID][2] == 'm':
         #  clears all mentor table cells
         for r in range(0, ui.mentorTable.rowCount()):
             for c in range(0, ui.mentorTable.columnCount()):
@@ -363,7 +381,7 @@ def createIDBox(number, row, column):
 #  updates the record file with the current records
 def updateRecordFile():
     file = open("data/record.pear", 'w')
-    file.truncate(0)
+    file.truncate(0)  # clears file
     sorted_record = sorted(record.items(), key=lambda kv: kv[1])  # sort by item, gives list of tuples
 
     #  clear leaderboards to prepare for update
@@ -402,6 +420,82 @@ def openInitiationDialog():
     InitiationDialog.ui.setup()
     InitiationDialog.exec_()
     InitiationDialog.show()
+
+
+#  returns string
+def getTimeStamp():
+    return datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+
+#  generates csv report
+#  columns: ID, name, is_student, date in, time in, date out, time out, calculated
+#  on side: ID, name, meetings attended, total time
+def generateReport():
+    #  read in log
+    log_file = open('data/log.pear', 'r')
+    logs = log_file.readlines()
+    for log in logs:
+        log = str.strip(log)
+        delimited = re.split('\|', log)
+        ID = str.strip(delimited[0])
+        timestamp_in = str.strip(delimited[1])
+        timestamp_out = str.strip(delimited[2])
+        if ID not in peopleDict:
+            continue
+        timestamp_in_delimited = re.split(' ', timestamp_in)
+        timestamp_out_delimited = re.split(' ', timestamp_out)
+        timestamp_in_date_delimited = re.split('-', timestamp_in_delimited[0])
+        timestamp_in_time_delimited = re.split(':', timestamp_in_delimited[1])
+        timestamp_out_date_delimited = re.split('-', timestamp_out_delimited[0])
+        timestamp_out_time_delimited = re.split(':', timestamp_out_delimited[1])
+
+        in_year = int(timestamp_in_date_delimited[0])
+        in_month = int(timestamp_in_date_delimited[1])
+        in_day = int(timestamp_in_date_delimited[2])
+        in_hour = int(timestamp_in_time_delimited[0])
+        in_minute = int(timestamp_in_time_delimited[1])
+        in_second = int(timestamp_in_time_delimited[2])
+        in_hour_converted = in_hour
+        in_PM = False
+        if in_hour >= 12:
+            in_PM = True
+            if in_hour > 12:
+                in_hour_converted -= 12
+
+        out_year = int(timestamp_out_date_delimited[0])
+        out_month = int(timestamp_out_date_delimited[1])
+        out_day = int(timestamp_out_date_delimited[2])
+        out_hour = int(timestamp_out_time_delimited[0])
+        out_minute = int(timestamp_out_time_delimited[1])
+        out_second = int(timestamp_out_time_delimited[2])
+        out_PM = False
+        out_hour_converted = out_hour
+        if out_hour >= 12:
+            out_PM = True
+            if out_hour > 12:
+                out_hour_converted -= 12
+
+        datetime_in = datetime.datetime(in_year, in_month, in_day, in_hour, in_minute, in_second)
+        datetime_out = datetime.datetime(out_year, out_month, out_day, out_hour, out_minute, out_second)
+        dt_delta = datetime_out-datetime_in
+
+        delta_h = dt_delta.seconds / 3600 + dt_delta.days * 24
+        delta_m = dt_delta.seconds % 3600 / 60
+        delta_s = dt_delta.seconds % 60
+
+        in_weekday = weekday[datetime_in.weekday()]
+        out_weekday = weekday[datetime_out.weekday()]
+
+        #  gather all the data
+        name = peopleDict[ID][0]
+        isStudent = peopleDict[ID][2] == 's'
+        dateIn = in_weekday + ", " + month[in_month-1] + " " + str("%02d" % in_day) + ", " + str(in_year)
+        dateOut = out_weekday + ", " + month[out_month-1] + " " + str("%02d" % out_day) + ", " + str(out_year)
+        timeIn = str("%02d" % in_hour) + ":" + str("%02d" % in_minute) + ":" + \
+                 str("%02d" % in_second) + " " + 'PM' if in_PM else 'AM'
+        timeOut = str("%02d" % out_hour) + ":" + str("%02d" % out_minute) + ":" + \
+                  str("%02d" % out_second) + " " + 'PM' if out_PM else 'AM'
+        calculated = str(delta_h) + ":" + str(delta_m) + ":" + str(delta_s)
+
 
 
 if __name__ == "__main__":

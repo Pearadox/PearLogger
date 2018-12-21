@@ -85,10 +85,13 @@ class Ui_mainWindow(object):
         self.actionAdd_Person.setObjectName("actionAdd_Person")
         self.actionReload_Data = QtWidgets.QAction(mainWindow)
         self.actionReload_Data.setObjectName("actionReload_Data")
+        self.actionGenerate_Report = QtWidgets.QAction(mainWindow)
+        self.actionGenerate_Report.setObjectName("actionGenerate_Report")
         self.menuActions.addAction(self.actionSign_Out_All)
         self.menuActions.addAction(self.actionClear_All)
         self.menuActions.addSeparator()
         self.menuActions.addAction(self.actionAdd_Person)
+        self.menuActions.addAction(self.actionGenerate_Report)
         self.menuActions.addSeparator()
         self.menuActions.addAction(self.actionReload_Data)
         self.menubar.addAction(self.menuActions.menuAction())
@@ -105,6 +108,7 @@ class Ui_mainWindow(object):
         self.actionSign_Out_All.setText(_translate("mainWindow", "Sign Out All"))
         self.actionAdd_Person.setText(_translate("mainWindow", "Add Person"))
         self.actionReload_Data.setText(_translate("mainWindow", "Reload Data"))
+        self.actionGenerate_Report.setText(_translate("mainWindow", "Generate Report"))
 
 
 if __name__ == "__main__":
