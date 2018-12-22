@@ -274,12 +274,6 @@ def logout(ID, clear):
     #  removes person from si1gned in list, stops tracking time
     signedIn.remove(ID)
 
-    #  add timestamp to log file
-    log_file = open("data/log.pear", 'a')
-    log_toWrite = str(ID) + "|" + timestamp[ID] + "|" + getTimeStamp() + "\n"
-    log_file.write(log_toWrite)
-    log_file.close()
-
     #  adds new time to record and updates it
     global loginTime
     loginTime = int(time.time() - loginTime[ID])
@@ -288,8 +282,17 @@ def logout(ID, clear):
         record[ID] = 0
     if clear:
         loginTime = 0
-    record[ID] += loginTime
-    updateRecordFile()
+    else:
+        #  add timestamp to log file
+        log_file = open("data/log.pear", 'a')
+        log_toWrite = str(ID) + "|" + timestamp[ID] + "|" + getTimeStamp() + "\n"
+        log_file.write(log_toWrite)
+        log_file.close()
+
+        record[ID] += loginTime
+        updateRecordFile()
+
+    #  Everything below is for graphics/UI
 
     #  count number of mentors, used for determining which row/col to remove from
     mentorCount = 0
@@ -430,10 +433,42 @@ def getTimeStamp():
 #  columns: ID, name, is_student, date in, time in, date out, time out, calculated
 #  on side: ID, name, meetings attended, total time
 def generateReport():
+
+    sortLogFile()
+
     #  read in log
     log_file = open('data/log.pear', 'r')
     logs = log_file.readlines()
+    log_file.close()
+
+    toPrint = list()
+    for i in range(len(logs)+100):
+        columns = list()
+        for j in range(60):
+            columns.append('')
+        toPrint.append(columns)
+    toPrint[0][0] = 'ID'
+    toPrint[0][1] = 'Name'
+    toPrint[0][2] = 'Student?'
+    toPrint[0][3] = 'Date In'
+    toPrint[0][4] = 'Time In'
+    toPrint[0][5] = 'Date Out'
+    toPrint[0][6] = 'Time Out'
+    toPrint[0][7] = 'Calculated'
+    toPrint[0][8] = ''
+    toPrint[0][9] = ''
+    toPrint[0][10] = ''
+    toPrint[0][11] = 'ID'
+    toPrint[0][12] = 'Student?'
+    toPrint[0][13] = 'Name'
+    toPrint[0][14] = 'Meetings Attended'
+    toPrint[0][15] = 'Total Time'
+
+    row = 1
+    meetingsAttended = dict()
+
     for log in logs:
+
         log = str.strip(log)
         delimited = re.split('\|', log)
         ID = str.strip(delimited[0])
@@ -494,9 +529,95 @@ def generateReport():
                  str("%02d" % in_second) + " " + 'PM' if in_PM else 'AM'
         timeOut = str("%02d" % out_hour) + ":" + str("%02d" % out_minute) + ":" + \
                   str("%02d" % out_second) + " " + 'PM' if out_PM else 'AM'
-        calculated = str(delta_h) + ":" + str(delta_m) + ":" + str(delta_s)
+        calculated = str("%02d" % delta_h) + ":" + str("%02d" % delta_m) + ":" + str("%02d" % delta_s)
 
-        sorted_record = sorted(record.items(), key=lambda kv: kv[1])  # sort by item, gives list of tuples
+        #  add to meetings attended
+        if ID in meetingsAttended.keys():
+            meetingsAttended[ID] += 1
+        else:
+            meetingsAttended[ID] = 1
+
+        #  add to print array
+        toPrint[row][0] = '"' + ID + '"'
+        toPrint[row][1] = '"' + name + '"'
+        toPrint[row][2] = '"' + str(isStudent) + '"'
+        toPrint[row][3] = '"' + dateIn + '"'
+        toPrint[row][4] = '"' + timeIn + '"'
+        toPrint[row][5] = '"' + dateOut + '"'
+        toPrint[row][6] = '"' + timeOut + '"'
+        toPrint[row][7] = '"' + calculated + '"'
+
+        row += 1
+
+    sorted_record = sorted(record.items(), key=lambda kv: kv[1])  # sort by item, gives list of tuples
+    sorted_record.reverse()  # we want highest on top
+    row = 1
+
+    for recordTuple in sorted_record:
+
+        ID = recordTuple[0]
+
+        if ID not in peopleDict.keys() or ID not in meetingsAttended.keys():
+            continue
+
+        isStudent = peopleDict[ID][2] == 's'
+        name = peopleDict[ID][0]
+        meetings = meetingsAttended[ID]
+        seconds_total = recordTuple[1]
+        hours = seconds_total / 3600
+        minutes = seconds_total % 3600 / 60
+        seconds = seconds_total % 60
+        combined = str("%02d" % hours) + ":" + str("%02d" % minutes) + ":" + str("%02d" % seconds)
+
+        toPrint[row][11] = '"' + ID + '"'
+        toPrint[row][12] = '"' + str(isStudent) + '"'
+        toPrint[row][13] = '"' + name + '"'
+        toPrint[row][14] = '"' + str(meetings) + '"'
+        toPrint[row][15] = '"' + combined + '"'
+
+        row += 1
+
+    #  Array -> .csv file
+    report_file = open('data/generated_report.csv', 'w')
+    report_file.truncate(0)
+
+    for r in range(len(toPrint)):
+        for c in range(len(toPrint[r])):
+            report_file.write(toPrint[r][c] + ',')
+        report_file.write('\n')
+
+    report_file.close()
+
+
+def sortLogFile():
+    #  read in log
+    log_file = open('data/log.pear', 'r')
+    logs = log_file.readlines()
+    log_file.close()
+
+    #  add everything to dictionary
+    logDict = dict()
+    for line in logs:
+        line = str.strip(line)
+        delimited = re.split('\|', line)
+        ID = str.strip(delimited[0])
+        timestamp_in = str.strip(delimited[1])
+        timestamp_out = str.strip(delimited[2])
+
+        if ID not in logDict.keys():
+            logDict[ID] = list()
+
+        logDict[ID].append((timestamp_in, timestamp_out))
+
+    keys = list(logDict.keys())
+    keys.sort()
+
+    log_file = open('data/log.pear', 'w')
+    log_file.truncate(0)
+    for ID in keys:
+        tupleList = logDict[ID]
+        for tuple in tupleList:
+            log_file.write(ID + "|" + tuple[0] + "|" + tuple[1] + "\n")
 
 
 if __name__ == "__main__":
