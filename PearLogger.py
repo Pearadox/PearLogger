@@ -10,6 +10,12 @@ loginTime = dict()  # k: ID number  v: long (most recent login in epoch time)
 record = dict()  # k: ID number  v: seconds of login time
 timestamp = dict()  # k: ID number  v: logged in time
 
+#  configuration variables
+shortest_time_sec = int()
+longest_time_sec = int()
+earliest_time_sec = int()
+latest_time_sec = int()
+
 month = ('January', 'February', 'March', 'April', 'May', 'June', 'July',
          'August', 'September', 'October', 'November', 'December')
 weekday = ('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday')
@@ -40,6 +46,7 @@ def setup():
     #  read in data
     people_file = Path("data/people.pear")
     record_file = Path("data/record.pear")
+    config_file = Path("data/config.pear")
 
     if not people_file.exists():
         #  create new people file
@@ -51,6 +58,15 @@ def setup():
     if not record_file.exists():
         #  create new record file
         file = open("data/record.pear", 'w')
+        file.close()
+
+    if not config_file.exists():
+        #  create new config file, add default settings
+        file = open("data/config.pear", 'w')
+        file.write("Shortest_Time_Allowed=00:10:00\n")
+        file.write("Longest_Time_Allowed=12:00:00\n")
+        file.write("Earliest_Time_Allowed=08:00:00\n")
+        file.write("Latest_Time_Allowed=00:00:00\n")
         file.close()
 
     #  process people into dictionary
@@ -93,7 +109,36 @@ def setup():
             total_seconds = int(time_delimited[0]) * 3600 + int(time_delimited[1]) * 60 + int(time_delimited[2])
             record[ID] = total_seconds
 
+    #  read in configuration
+    with open("data/config.pear") as inf:
+        for line in inf:
+            delimited = re.split('=', line)
+            if str.strip(delimited[0]) == "Longest_Time_Allowed":
+                global longest_time_sec
+                time_delimited = re.split(':', str.strip(delimited[1]))
+                longest_time_sec = int(str.strip(time_delimited[0]))*3600 + \
+                                   int(str.strip(time_delimited[1]))*60 + \
+                                   int(str.strip(time_delimited[2]))
+            elif str.strip(delimited[0]) == "Shortest_Time_Allowed":
+                global shortest_time_sec
+                time_delimited = re.split(':', str.strip(delimited[1]))
+                shortest_time_sec = int(str.strip(time_delimited[0])) * 3600 + \
+                                   int(str.strip(time_delimited[1])) * 60 + \
+                                   int(str.strip(time_delimited[2]))
+            elif str.strip(delimited[0]) == "Latest_Time_Allowed":
+                global latest_time_sec
+                time_delimited = re.split(':', str.strip(delimited[1]))
+                latest_time_sec = int(str.strip(time_delimited[0])) * 3600 + \
+                                   int(str.strip(time_delimited[1])) * 60 + \
+                                   int(str.strip(time_delimited[2]))
+            elif str.strip(delimited[0]) == "Earliest_Time_Allowed":
+                global earliest_time_sec
+                time_delimited = re.split(':', str.strip(delimited[1]))
+                earliest_time_sec = int(str.strip(time_delimited[0])) * 3600 + \
+                                   int(str.strip(time_delimited[1])) * 60 + \
+                                   int(str.strip(time_delimited[2]))
     updateRecordFile()
+
 
 class Ui_mainWindow(object):
 
@@ -270,26 +315,31 @@ def login(ID):
 #  essentially signs everyone out then everyone back in except the one who just logged out (removes gaps)
 #  clear = don't record hours(boolean)
 def logout(ID, clear):
-    print(ID)
     #  removes person from si1gned in list, stops tracking time
     signedIn.remove(ID)
 
     #  adds new time to record and updates it
-    global loginTime
-    loginTime = int(time.time() - loginTime[ID])
+    timeLogged = int(time.time() - loginTime[ID])
     name = peopleDict[ID][0]
+    #  if first time signing in, add key to dictionary
     if ID not in record.keys():
         record[ID] = 0
-    if clear:
-        loginTime = 0
-    else:
+
+    #  decide if time should be cleared based on configurations
+    if timeLogged > longest_time_sec\
+            or timeLogged < shortest_time_sec\
+            or not inBetween(getCurrentTimeSeconds(), earliest_time_sec, latest_time_sec):
+        clear = True
+
+    if not clear:
         #  add timestamp to log file
         log_file = open("data/log.pear", 'a')
         log_toWrite = str(ID) + "|" + timestamp[ID] + "|" + getTimeStamp() + "\n"
         log_file.write(log_toWrite)
         log_file.close()
 
-        record[ID] += loginTime
+        #  add logged time and update the record file to show it
+        record[ID] += timeLogged
         updateRecordFile()
 
     #  Everything below is for graphics/UI
@@ -588,6 +638,8 @@ def generateReport():
 
     report_file.close()
 
+    tellUser("Generate Report", "Successfully generated report (" + str(report_file.name) + ")")
+
 
 def sortLogFile():
     #  read in log
@@ -618,6 +670,18 @@ def sortLogFile():
         tupleList = logDict[ID]
         for tuple in tupleList:
             log_file.write(ID + "|" + tuple[0] + "|" + tuple[1] + "\n")
+
+
+def getCurrentTimeSeconds():
+    time = datetime.datetime.now().time()
+    return time.hour * 3600 + time.minute * 60 + time.second
+
+
+def inBetween(now, start, end):
+    if start <= end:
+        return start <= now < end
+    else:  # over midnight
+        return start <= now or now < end
 
 
 if __name__ == "__main__":

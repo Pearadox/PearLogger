@@ -270,6 +270,8 @@ class Ui_initiationDialog(object):
         except:
             yellAtUser("Error with Picture", "Please move the picture to data/profilepics/ and try again")
 
+
+    #  mass import people
     def importCSV(self):
         csv_path = QtWidgets.QFileDialog.getOpenFileName(None, "QFileDialog.getOpenFileName()", "", "CSV Files (*.csv)")
         csv = open(csv_path[0], mode='r')
@@ -285,17 +287,11 @@ class Ui_initiationDialog(object):
             type = 'm'
 
             if len(name) is 0 or len(year) is 0 or len(type) is 0:
-                yellAtUser("Import CSV Error", "Missing data")
+                yellAtUser("Import CSV Error", "Missing data: " + line)
                 continue
 
             if len(picName) is 0:
                 picName = "default.jpg"
-
-            full_relative_path = Path('data/profilepics/' + picName)
-
-            #  make sure picture exists in right location
-            if not full_relative_path.exists():
-                full_relative_path = Path('data/profilepics/default.jpg')
 
             #  get school
             if int(school) < 3:
@@ -317,7 +313,7 @@ class Ui_initiationDialog(object):
                     break
 
             #  add person to the dictionary
-            peopleDict[ID] = (name, str(full_relative_path), type)
+            peopleDict[ID] = (name, picName, type)
 
             #  rewrite the people file so it includes the new person
             rewritePeopleFile()
