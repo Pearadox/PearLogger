@@ -87,17 +87,19 @@ def setup():
                 #  make sure picture works or is not empty. otherwise use default
                 if (len(str(picture_path)) is 0) or (not picture_path.exists()):
                     picture_path = Path('data/profilepics/default.jpg')
+
+                #  check if number already exists in dictionary
+                if number in peopleDict.keys():
+                    print(
+                        "ERROR: Duplicate numbers in people file (#" + number + ") (data/people.pear, line " + str(
+                            lineCount) + ")")
+                    continue
+
+                #  record the data in a dictionary
+                peopleDict[number] = (name, str(picture_path), type)
             except:
                 print("ERROR: Parsing error in people file (data/people.pear, line " + str(lineCount) + ")")
 
-            #  check if number already exists in dictionary
-            if number in peopleDict.keys():
-                print("ERROR: Duplicate numbers in people file (#" + number + ") (data/people.pear, line " + str(
-                    lineCount) + ")")
-                continue
-
-            #  record the data in a dictionary
-            peopleDict[number] = (name, str(picture_path), type)
 
     #  process hours into dictionary
     with open("data/record.pear") as inf:
@@ -200,6 +202,16 @@ class Ui_mainWindow(object):
         self.leaderboardTable.verticalHeader().setVisible(True)
         self.leaderboardTable.verticalHeader().setDefaultSectionSize(63)
         self.leaderboardTable.verticalHeader().setSortIndicatorShown(False)
+        self.messageLabel = QtWidgets.QLabel(self.centralwidget)
+        self.messageLabel.setGeometry(QtCore.QRect(1100, 70, 311, 231))
+        font = QtGui.QFont()
+        font.setFamily("Comic Sans MS")
+        font.setPointSize(12)
+        self.messageLabel.setFont(font)
+        self.messageLabel.setText("")
+        self.messageLabel.setAlignment(QtCore.Qt.AlignHCenter | QtCore.Qt.AlignTop)
+        self.messageLabel.setWordWrap(True)
+        self.messageLabel.setObjectName("messageLabel")
         mainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(mainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 1920, 21))
@@ -315,7 +327,7 @@ def login(ID):
 #  essentially signs everyone out then everyone back in except the one who just logged out (removes gaps)
 #  clear = don't record hours(boolean)
 def logout(ID, clear):
-    #  removes person from si1gned in list, stops tracking time
+    #  removes person from signed in list, stops tracking time
     signedIn.remove(ID)
 
     #  adds new time to record and updates it
@@ -340,7 +352,17 @@ def logout(ID, clear):
 
         #  add logged time and update the record file to show it
         record[ID] += timeLogged
+
+        #  update file to show new hours
         updateRecordFile()
+
+        #  add status message
+        hoursJustLogged = round(timeLogged/3600.,2);
+        hoursLoggedTotal = round(record[ID]/3600,2);
+        print(hoursJustLogged)
+        ui.messageLabel.setText("Logged out ID #" + ID + ". You logged " + str(hoursJustLogged) +
+                                " hours, adding on to your total of " + str(hoursLoggedTotal) + " hours!")
+
 
     #  Everything below is for graphics/UI
 
